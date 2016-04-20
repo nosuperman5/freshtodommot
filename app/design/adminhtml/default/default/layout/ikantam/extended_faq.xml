@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * iKantam LLC
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the iKantam EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://magento.ikantam.com/store/license-agreement
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade
+ * ExtendedFaq Module to newer versions in the future.
+ *
+ * @category   Ikantam
+ * @package    Ikantam_ExtendedFaq
+ * @author     iKantam Team <support@ikantam.com>
+ * @copyright  Copyright (c) 2012 iKantam LLC (http://www.ikantam.com)
+ * @license    http://magento.ikantam.com/store/license-agreement  iKantam EULA
+ */
+-->
+<layout version="0.1.0">
+
+    <extendedfaq_adminhtml_faq_index>
+        <reference name="content">
+        	<block type="extendedfaq/adminhtml_faq" name="faq" />
+		</reference>
+    </extendedfaq_adminhtml_faq_index>
+	
+	<extendedfaq_adminhtml_faq_new>
+       <reference name="content">
+            <block type="extendedfaq/adminhtml_faq_edit" name="faq.new" />
+        </reference>
+    </extendedfaq_adminhtml_faq_new>
+	
+	<extendedfaq_adminhtml_faq_edit>
+       <reference name="content">
+            <block type="extendedfaq/adminhtml_faq_edit" name="faq.edit" />
+        </reference>
+    </extendedfaq_adminhtml_faq_edit>
+	
+	<extendedfaq_adminhtml_faq_save> 
+       <reference name="content">
+            <block type="extendedfaq/adminhtml_faq_edit" name="faq.save" />
+        </reference>
+    </extendedfaq_adminhtml_faq_save>
+	
+	<extendedfaq_adminhtml_faq_delete>
+       <reference name="content">
+            <block type="extendedfaq/adminhtml_faq_edit" name="faq.delete" />
+        </reference>
+    </extendedfaq_adminhtml_faq_delete>
+
+	<extendedfaq_adminhtml_category_index>
+        <reference name="content">
+        	<block type="extendedfaq/adminhtml_category" name="category" />
+		</reference>
+    </extendedfaq_adminhtml_category_index>
+	
+	<extendedfaq_adminhtml_category_new>
+       <reference name="content">
+            <block type="extendedfaq/adminhtml_category_edit" name="faq.new" />
+        </reference>
+    </extendedfaq_adminhtml_category_new>
+	
+	<extendedfaq_adminhtml_category_edit>
+       <reference name="content">
+            <block type="extendedfaq/adminhtml_category_edit" name="faq.edit" />
+        </reference>
+    </extendedfaq_adminhtml_category_edit>
+	
+	<extendedfaq_adminhtml_category_save> 
+       <reference name="content">
+            <block type="extendedfaq/adminhtml_category_edit" name="faq.save" />
+        </reference>
+    </extendedfaq_adminhtml_category_save>
+	
+	<extendedfaq_adminhtml_category_delete>
+       <reference name="content">
+            <block type="extendedfaq/adminhtml_category_edit" name="faq.delete" />
+        </reference>
+    </extendedfaq_adminhtml_category_delete>
+</layout>

@@ -1,0 +1,58 @@
+.my-shoppinglist .data-table td {
+    padding: 4px;
+}
+.my-shoppinglist .product-image {
+    display: block;
+    height: 113px;
+    margin: 0 0 5px;
+    width: 113px;
+}
+.my-shoppinglist textarea {
+    height: 109px;
+    width: 97%;
+}
+.my-shoppinglist .buttons-set {
+    margin-top: 2em;
+}
+.my-shoppinglist .buttons-set button.button {
+    float: none;
+}
+
+.my-shoppinglist .btn-add span, .my-shoppinglist .btn-share span {
+    background: none repeat scroll 0 0 #618499;
+    border-color: #406A83;
+}
+
+.my-shoppinglist-hidden {
+    display: none; 
+}
+.my-shoppinglist-visibled {
+    display: block;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.center {
+    text-align: center;
+}
+
+.on-mouse {
+    background:#fcf5dd !important;
+}
+
+.my-shoppinglist-popup-move {
+    position: absolute; 
+    width: auto; 
+    height: auto; 
+    padding: 4px;
+    text-align: left;
+    display: none; 
+    cursor: default; 
+    background: #FFFFFF;    
+    border: 1px solid #CCCCCC; /*#999999*/
+    border-radius: 6px;    
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+    z-index: 100;   
+}

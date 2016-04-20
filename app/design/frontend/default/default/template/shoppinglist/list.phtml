@@ -1,0 +1,247 @@
+<?php
+/**
+ * MageWorx
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the MageWorx EULA that is bundled with
+ * this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.mageworx.com/LICENSE-1.0.html
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade the extension
+ * to newer versions in the future. If you wish to customize the extension
+ * for your needs please refer to http://www.mageworx.com/ for more information
+ *
+ * @category   MageWorx
+ * @package    MageWorx_ShoppingList
+ * @copyright  Copyright (c) 2011 MageWorx (http://www.mageworx.com/)
+ * @license    http://www.mageworx.com/LICENSE-1.0.html
+ */
+
+/**
+ * Shopping List extension
+ *
+ * @category   MageWorx
+ * @package    MageWorx_ShoppingList
+ * @author     MageWorx Dev Team
+ */
+?>
+<div id="my-shoppinglist-content">
+    <div class="my-shoppinglist">
+        <div class="page-title title-buttons" style="margin-bottom:15px;">        
+            <h1><?php echo $this->__('My Shopping Lists') ?></h1>                
+        </div>
+        <div align="right" style="font-weight:bold; margin:2px"><a href="<?php echo $this->getUrl('*/index/create/') ?>"><?php echo $this->__('Create list') ?></a></div>
+
+        <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+        <?php $shoppinglists=$this->getShoppingLists(); if (count($shoppinglists)>0): ?>
+        <form id="shoppinglist-view-form" action="<?php echo $this->getUrl('*/index/submitList/') ?>" method="post">
+            <fieldset>
+                <?php echo $this->getBlockHtml('formkey')?>
+                <table class="data-table" id="shoppinglist-table">
+                <col width="1" />
+                <col width="1" />
+                <col />
+                <col width="1" />
+                <col width="1" />
+                <col width="1" />
+                <col width="1" />
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" name="check_all" value="" onclick="checkAll(this);" title="<?php echo $this->escapeHtml($this->__('Check all')) ?>" /></th>
+                            <th><?php echo $this->__('Title') ?></th>
+                            <th><?php echo $this->__('Description') ?></th>
+                            <th><?php echo $this->__('Products') ?></th>
+                            <th class="a-center"><span class="nobr"><?php echo $this->__('Created On') ?></span></th>
+                            <th class="a-center"><span class="nobr"><?php echo $this->__('Actions') ?></span></th>
+                            <th>&nbsp;</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach ($shoppinglists as $item): ?>                    
+                        <tr id="tr_<?php echo $item->getShoppinglistId() ?>">
+                            <td class="center"><input type="checkbox" name="checked[<?php echo $item->getShoppinglistId() ?>]" value="1"/></td>
+                            <td ondblclick="editTitle(<?php echo $item->getShoppinglistId() ?>);">
+                                <span id="title_span_<?php echo $item->getShoppinglistId() ?>"><?php echo $this->htmlEscape($item->getTitle()) ?></span>
+                                <input type="text" name="title[<?php echo $item->getShoppinglistId() ?>]" id="title_input_<?php echo $item->getShoppinglistId() ?>" onchange="$('changed_<?php echo $item->getShoppinglistId() ?>').value=1" class="my-shoppinglist-hidden" value="<?php echo $this->htmlEscape($item->getTitle()) ?>" />
+                            </td>
+                            <td ondblclick="editDescr(<?php echo $item->getShoppinglistId() ?>);">
+                                <span id="descr_span_<?php echo $item->getShoppinglistId() ?>"><?php echo $this->htmlEscape($item->getDescription()) ?></span>
+                                <textarea name="description[<?php echo $item->getShoppinglistId() ?>]" id="descr_area_<?php echo $item->getShoppinglistId() ?>" class="my-shoppinglist-hidden" rows="3" cols="5" onfocus="focusDescription(this, true)" onblur="focusDescription(this, false)" onchange="$('changed_<?php echo $item->getShoppinglistId() ?>').value=1" title="<?php echo $this->escapeHtml($this->__('Description')) ?>"><?php echo $this->htmlEscape($item->getDescription()) ?></textarea>
+                                <input type="hidden" name="changed[<?php echo $item->getShoppinglistId() ?>]" id="changed_<?php echo $item->getShoppinglistId() ?>" value="0" />
+                            </td>
+                            <td class="center">
+                                <?php echo $item->getProductCount() ?><br/>
+                                <a href="<?php echo $this->getUrl('*/index/view/').'id/'.$item->getShoppinglistId().'/' ?>"><?php echo $this->__('View') ?></a>
+                            </td>
+                            <td class="nobr"><?php echo $this->getFormatedDate($item->getCreatedOn()) ?></td>
+                            <td class="a-center">                                                                       
+                                <button type="button" title="<?php echo $this->escapeHtml($this->__('Add to Cart')) ?>" onclick="setLocation('<?php echo $this->getUrl('*/index/listAddToCart/').'id/'.$item->getShoppinglistId().'/'; ?>')" class="button btn-cart"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button>
+                                <a href="" id="edit_<?php echo $item->getShoppinglistId() ?>" onclick="editList(<?php echo $item->getShoppinglistId() ?>); return false;"><?php echo $this->__('Edit') ?></a>
+                                <a href="" id="save_<?php echo $item->getShoppinglistId() ?>" onclick="saveList(<?php echo $item->getShoppinglistId() ?>); return false;" class="my-shoppinglist-hidden"><?php echo $this->__('Save') ?></a>
+                            </td>
+                            <td class="a-center">
+                                <a href="" title="<?php echo $this->escapeHtml($this->__('Remove Item')) ?>" onclick="removeList(<?php echo $item->getShoppinglistId() ?>); return false;" class="btn-remove btn-remove2"><?php echo $this->__('Remove Item')?></a>
+
+                                <div style="margin-top:5px;"><a href="" onclick="duplicateList(<?php echo $item->getShoppinglistId() ?>); return false;" title="<?php echo $this->escapeHtml($this->__('Duplicate')) ?>"><?php echo $this->__('Dpl') ?></a></div>
+                            </td>
+                        </tr>
+                    <?php endforeach ?>
+                    </tbody>
+                </table>
+                <script type="text/javascript">decorateTable('shoppinglist-table')</script>
+                <div class="buttons-set buttons-set2">
+                    <button type="submit" title="<?php echo $this->escapeHtml($this->__('Add Selected Lists to Cart')) ?>" onclick="if (checkChecked()) this.name='do_cart'; else return false;" class="button btn-share"><span><span><?php echo $this->__('Add Selected Lists to Cart') ?></span></span></button>                
+                    <button type="submit" title="<?php echo $this->escapeHtml($this->__('Delete Selected Lists')) ?>" onclick="if (deleteSelectedLists()) this.name='do_delete'; else return false;" class="button btn-update"><span><span><?php echo $this->__('Delete Selected Lists') ?></span></span></button>
+                </div>
+            </fieldset>
+        </form>
+    <?php else: ?>
+        <p><?php echo $this->__('You have no shopping lists.') ?></p>
+    <?php endif ?>
+    <script type="text/javascript">
+    //<![CDATA[
+    function focusDescription(obj, focus) {
+        if (obj.value == '<?php echo $this->helper('shoppinglist')->defaultDescriptionString() ?>') {
+            obj.value = '';
+        } else if( obj.value == '' && focus==false) {
+            obj.value = '<?php echo $this->helper('shoppinglist')->defaultDescriptionString() ?>';
+        }
+    }
+
+    function editTitle(itemId) {
+        $('title_input_'+itemId).addClassName('my-shoppinglist-visibled');
+        $('title_span_'+itemId).addClassName('my-shoppinglist-hidden');        
+        $('save_'+itemId).addClassName('my-shoppinglist-visibled');
+        $('edit_'+itemId).addClassName('my-shoppinglist-hidden');
+    }
+
+    function editDescr(itemId) {
+        $('descr_area_'+itemId).addClassName('my-shoppinglist-visibled');
+        $('descr_span_'+itemId).addClassName('my-shoppinglist-hidden');
+        $('save_'+itemId).addClassName('my-shoppinglist-visibled');
+        $('edit_'+itemId).addClassName('my-shoppinglist-hidden');
+    }
+    
+    function editList(itemId) {
+        editTitle(itemId);
+        editDescr(itemId);        
+    }
+    
+    function viewList(itemId) {                           
+        $('title_input_'+itemId).removeClassName('my-shoppinglist-visibled');
+        $('title_span_'+itemId).removeClassName('my-shoppinglist-hidden');        
+        $('descr_area_'+itemId).removeClassName('my-shoppinglist-visibled');
+        $('descr_span_'+itemId).removeClassName('my-shoppinglist-hidden');        
+
+        $('edit_'+itemId).removeClassName('my-shoppinglist-hidden');        
+    }
+    
+    
+    function saveList(itemId) {                       
+        title=$('title_input_'+itemId).value;
+        descr=$('descr_area_'+itemId).value;
+        if (descr=='<?php echo $this->helper('shoppinglist')->defaultDescriptionString() ?>') descr='';
+        
+        if (title.replace(/^\s+|\s+$/g,"").length==0) {
+            alert('<?php echo $this->jsQuoteEscape($this->__('The title must not be empty.')) ?>');
+            return false;
+        }
+        
+        $('save_'+itemId).removeClassName('my-shoppinglist-visibled');
+        
+        if ($('changed_'+itemId).value==0) {
+            viewList(itemId);
+            return false;
+        }        
+        
+        new Ajax.Request("<?php echo $this->getAjaxUrl() ?>saveList/?list_id="+itemId+"&title="+encodeURIComponent(title)+"&descr="+encodeURIComponent(descr), {
+            method: 'get',
+            onSuccess: function(transport) {
+                if (transport.responseText=="ok") {                    
+                    $('title_span_'+itemId).innerHTML=title;
+                    $('descr_span_'+itemId).innerHTML=descr;
+                    $('changed_'+itemId).value=0;
+                    viewList(itemId);
+                } else {
+                    alert('<?php echo $this->jsQuoteEscape($this->__('Failed to save item.')) ?>');
+                    $('save_'+itemId).addClassName('my-shoppinglist-visibled');
+                }
+            }    
+        });                      
+    }    
+    
+    function removeList(itemId) {
+        if (confirm('<?php echo $this->jsQuoteEscape($this->__('Are you sure want to delete the shopping list?')) ?>')) {
+            row = $('tr_'+itemId);
+            ShoppingList.fade(row);            
+            
+            new Ajax.Request("<?php echo $this->getAjaxUrl() ?>removeList/?list_id="+itemId+"&list_count="+$$('span[id^="title_span_"]').length, {
+                method: 'get',
+		onSuccess: function(transport) {
+                    if (transport.responseText!="no") {
+                        $('tr_'+itemId).remove();
+                        if (transport.responseText=='ok') {
+                            decorateTable('shoppinglist-table');
+                        } else {
+                            ShoppingList.updateBlock($('my-shoppinglist-content'), transport.responseText);                            
+                        }    
+                    } else {
+                        alert('<?php echo $this->jsQuoteEscape($this->__('Failed to remove item.')) ?>');
+                    }
+                }    
+            });
+        }
+    }    
+    
+    function duplicateList(itemId) {
+        if (confirm('<?php echo $this->jsQuoteEscape($this->__('Are you sure want to duplicate the shopping list?')) ?>')) {
+            row = $('tr_'+itemId);
+            ShoppingList.fade(row);            
+            new Ajax.Request("<?php echo $this->getAjaxUrl() ?>duplicateList/?list_id="+itemId, {
+                method: 'get',
+		onSuccess: function(transport) {
+                    if (transport.responseText!="no") {                        
+                        ShoppingList.updateBlock($('my-shoppinglist-content'), transport.responseText);
+                    } else {
+                        alert('<?php echo $this->jsQuoteEscape($this->__('Failed to duplicate item.')) ?>');
+                    }
+                }    
+            });
+        }
+    }
+    
+    function checkAll(obj) {
+        var form = $(obj.form); 
+        var inputs = form.getInputs('checkbox'); 
+        inputs.each(function (elem) { 
+            elem.checked = obj.checked; 
+        });           
+    }
+    
+    function checkChecked() {
+        var form = $('shoppinglist-view-form'); 
+        var inputs = form.getInputs('checkbox'); 
+        checkFlag = false;
+        inputs.each(function (elem) {           
+            if (elem.checked) checkFlag = true;
+        });
+        if (checkFlag) return true;
+        alert('<?php echo $this->jsQuoteEscape($this->__('Please select list(s).')) ?>');
+        return false;           
+    }    
+    
+    function deleteSelectedLists() {        
+        if (checkChecked()==false) return false;                
+        return confirm('<?php echo $this->jsQuoteEscape($this->__('Do you want to delete selected list(s)?')) ?>');
+    }   
+    //]]>
+    </script>
+    </div>
+    <div class="buttons-set">
+        <p class="back-link"><a href="<?php echo $this->urlEscape($this->getBackUrl()) ?>"><small>&laquo; </small><?php echo $this->__('Back') ?></a></p>
+    </div>
+</div>

@@ -1,0 +1,79 @@
+<?php
+/**
+ * MageWorx
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the MageWorx EULA that is bundled with
+ * this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.mageworx.com/LICENSE-1.0.html
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade the extension
+ * to newer versions in the future. If you wish to customize the extension
+ * for your needs please refer to http://www.mageworx.com/ for more information
+ *
+ * @category   MageWorx
+ * @package    MageWorx_ShoppingList
+ * @copyright  Copyright (c) 2011 MageWorx (http://www.mageworx.com/)
+ * @license    http://www.mageworx.com/LICENSE-1.0.html
+ */
+
+/**
+ * Shopping List extension
+ *
+ * @category   MageWorx
+ * @package    MageWorx_ShoppingList
+ * @author     MageWorx Dev Team
+ */
+?>
+<div class="account-create">
+    <div class="page-title">
+        <h1><?php echo $this->__('Create Shopping List') ?></h1>
+    </div>
+    <?php echo $this->getChildHtml('form_fields_before')?>
+    <?php echo $this->getMessagesBlock()->getGroupedHtml(); $sessionData=Mage::getSingleton('customer/session')->getShoppinglist() ?>
+    <form action="<?php echo $this->getUrl('*/*/submitCreate/') ?>" id="form_action" method="post">
+        <?php echo $this->getBlockHtml('formkey')?>
+        <div class="fieldset">
+            <h2 class="legend"><?php echo $this->__('List Details') ?></h2
+            <ul class="form-list">
+                <li>
+                    <div class="input-box">
+                        <label class="required">
+                            <?php echo $this->__('Title') ?> <em style="color:#EB340A">*</em><br/>
+                            <input type="text" name="title" title="<?php echo $this->escapeHtml($this->__('Title')) ?>" class="input-text required-entry" value="<?php if (isset($sessionData['title'])) echo $sessionData['title'] ?>" />
+                        </label>
+                    </div>
+                </li>
+                <li>
+                    <label>
+                        <?php echo $this->__('Description') ?><br/>
+                        <textarea name="description" cols="60" rows="5" onfocus="focusDescription(this, true)" onblur="focusDescription(this, false)" title="<?php echo $this->escapeHtml($this->__('Description')) ?>"><?php if (isset($sessionData['description'])) echo $sessionData['description'] ?></textarea>
+                    </label>    
+                </li>
+            </ul>
+        </div>
+        <div class="buttons-set" style="margin-top:0">
+            <p class="required"><?php echo $this->__('* Required Fields') ?></p>
+            <p class="back-link"><a href="<?php echo $this->getBackUrl() ?>" class="back-link"><small>&laquo; </small><?php echo $this->__('Back') ?></a></p>
+            <button class="button" type="submit"><span><?php echo $this->__('Save') ?></span></button>            
+            <button type="button" onclick="setLocation('<?php echo $this->getBackUrl() ?>')" class="button listen-cancel" name="cancel"><span><?php echo $this->__('Cancel') ?></span></button>
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+    //<![CDATA[
+    var dataForm = new VarienForm('form_action', true);
+    
+    function focusDescription(obj, focus) {
+        if( obj.value == '<?php echo $this->helper('shoppinglist')->defaultDescriptionString() ?>' ) {
+            obj.value = '';
+        } else if( obj.value == '' && focus==false) {
+            obj.value = '<?php echo $this->helper('shoppinglist')->defaultDescriptionString() ?>';
+        }
+    }
+    //]]>
+</script>    

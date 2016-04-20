@@ -1,0 +1,11 @@
+<div class="header-home">
+	<div class="logo-home"><a href="<?php echo $this->getUrl('') ?>" class="logo-home__link"><img src="<?php echo $this->getSkinUrl(Mage::getStoreConfig('design/header/logo_src')) ?>" alt="<?php echo Mage::getStoreConfig('design/header/logo_alt') ?>"></a></div>
+	<div class="header-home__btn-box">
+		<?php if($this->getRequest()->getActionName() != 'create'):?>
+		<a href="<?php echo Mage::getUrl('customer/account/create'); ?>" class="btn-success btn">Sign up</a>
+		<?php endif; ?>
+		<?php if($this->getRequest()->getActionName() != 'login'):?>
+			<a href="<?php echo Mage::getUrl('customer/account/login'); ?>" class="btn-default btn">Sign in</a>
+		<?php endif; ?>
+	</div>
+</div>

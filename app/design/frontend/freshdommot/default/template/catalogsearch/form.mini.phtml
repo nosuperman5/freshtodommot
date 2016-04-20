@@ -1,0 +1,35 @@
+<?php
+/* @var $catalogSearchHelper Mage_Catalogsearch_Helper_Data */
+$catalogSearchHelper =  $this->helper('catalogsearch');
+?>
+<div class="header__top__item header__top__item--search">
+	<form id="search_mini_form" action="<?php echo $catalogSearchHelper->getResultUrl() ?>" method="get">
+		<div class="form-search">
+			<input id="search" type="text" name="<?php echo $catalogSearchHelper->getQueryParamName() ?>" value="<?php echo $catalogSearchHelper->getEscapedQueryText() ?>" maxlength="<?php echo $catalogSearchHelper->getMaxQueryLength();?>" autocomplete="off" placeholder="<?php echo $this->__('Search fresh to dommot') ?>" class="input-text">
+			<button type="submit" title="Search" class="button"><span><span><?php echo $this->__('Search:') ?></span></span></button>
+			<div id="search_autocomplete" style="display: none;" class="search-autocomplete"></div>
+			<script type="text/javascript">
+			//<![CDATA[
+				var searchForm = new Varien.searchForm('search_mini_form', 'search', '<?php echo Mage::helper('core')->jsQuoteEscape($this->__('Search fresh to dommot')) ?>');
+				searchForm.initAutocomplete('<?php echo $catalogSearchHelper->getSuggestUrl() ?>', 'search_autocomplete');
+			//]]>
+			</script>
+		</div>
+	</form>
+</div>
+<?php /*<form id="search_mini_form" action="<?php echo $catalogSearchHelper->getResultUrl() ?>" method="get">
+    <div class="form-search">
+        <label for="search"><?php echo $this->__('Search:') ?></label>
+        <input id="search" type="text" name="<?php echo $catalogSearchHelper->getQueryParamName() ?>" value="<?php echo $catalogSearchHelper->getEscapedQueryText() ?>" class="input-text" maxlength="<?php echo $catalogSearchHelper->getMaxQueryLength();?>" />
+        <button type="submit" title="<?php echo Mage::helper('core')->quoteEscape($this->__('Search')) ?>" class="button"><span><span><?php echo $this->__('Search') ?></span></span></button>
+        <div id="search_autocomplete" class="search-autocomplete"></div>
+        <script type="text/javascript">
+        //<![CDATA[
+            var searchForm = new Varien.searchForm('search_mini_form', 'search', '<?php echo Mage::helper('core')->jsQuoteEscape($this->__('Search entire store here...')) ?>');
+            searchForm.initAutocomplete('<?php echo $catalogSearchHelper->getSuggestUrl() ?>', 'search_autocomplete');
+        //]]>
+        </script>
+    </div>
+</form>*/ ?>
+
+

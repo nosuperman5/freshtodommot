@@ -1,0 +1,233 @@
+<?php 
+	$helper = Mage::helper('fresh_local');
+	$listHelper = Mage::helper('shoppinglist');
+?>
+<div id="my-shoppinglist-content">
+    <div class="page-header">
+        <div class="container-fluid">
+            <div class="block-title">
+                <ul class="page-header__list">
+                    <li><a href="<?php echo Mage::getModel('catalog/category')->load(17)->getUrl() ?>"><strong><span><?php echo $this->__('Recipes'); ?></span></strong></a></li>
+                    <li><strong><span><?php echo $this->__('Lists'); ?></span></strong></li>
+                </ul>
+                <div class="page-header__form">
+                    <form action="<?php echo $this->getUrl('*/*/submitCreate/') ?>" id="create_list_form" method="post">
+                        <?php echo $this->getBlockHtml('formkey') ?>
+                        <div class="input-group">
+                            <input type="text" name="title" title="<?php echo $this->__('Choose a name for your list'); ?>" placeholder="<?php echo $this->__('Choose a name for your list'); ?>" class="form-control input-text required-entry" />
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="submit"><i class="fa fa-plus"></i><span><?php echo $this->__('Create list') ?></span></button>                    
+                            </span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-main">
+        <div class="container-fluid">
+            <div class="products">
+                <h2 class="products__title"><?php echo $this->__('My Lists') ?></h2>
+                <div class="products__list">
+                    <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+                    <?php
+                    $shoppinglists = $this->getShoppingLists();
+                    if (count($shoppinglists) > 0):
+                        ?>
+                        <div class="row products__list__row">
+                            <?php
+                            foreach ($shoppinglists as $item):
+                                $listItems = Mage::getResourceModel('shoppinglist/item_collection')
+                                        ->addShoppingListFilter($item->getShoppinglistId())
+                                        ->addStoreFilter();
+                                $listOwner = Mage::getModel('customer/customer')->load($item->getCustomerId());
+                                $listOwnerImage = $listOwner->getProfileImage();
+                                if (!$listOwnerImage) {
+                                    $listOwnerImage = $this->getSkinUrl('images/user.jpg');
+                                } else {
+                                    $listOwnerImage = Mage::getModel('fresh_local/customer_profileimage')->getProfileimageUrl($listOwnerImage);
+                                }
+                                ?>
+                                <div class="col-lg-3 col-md-4 col-xs-6 products__list__item">
+                                    <a class="btn-hollow btn-mini btn-white list_edit_button" href="<?php echo $this->getUrl('*/index/view/') . 'id/' . $item->getShoppinglistId() . '/' ?>" ><?php echo $this->__('Edit') ?></a>
+                                    <a href="#preview" data-toggle="modal" data-target="#preview_<?php echo $item->getShoppinglistId() ?>" class="products__list__box">
+                                        <span style="background-image: url('<?php echo $item->getImage(); ?>');" class="products__list__box__inner">
+                                            <span class="products__list__box__content">
+                                                <span class="products__list__box__head">
+                                                    <!--<span><?php echo $this->__('Recipe') ?></span>-->
+                                                </span>
+                                                <span class="products__list__box__body">
+                                                    <span class="products__list__box__title"><?php echo $this->htmlEscape($item->getTitle()) ?></span>
+                                                    <span class="products__list__box__author"><?php echo $this->__('by %s', $listOwner->getName()); ?></span>                                                  
+                                                </span>                                              
+                                            </span>                                          
+                                        </span>
+                                    </a>
+                                    <!-- Modal -->
+                                    <div id="preview_<?php echo $item->getShoppinglistId() ?>" class="modal fade" role="dialog">
+                                        <div class="modal-dialog">
+
+                                            <!-- Modal content-->
+                                            <div class="modal-content">
+                                                <div data-firebase-url="" data-id="<?php echo $item->getShoppinglistId() ?>" data-share-url="#" class="fresh-list fresh-list-logged-in fresh-list-view-mode">
+                                                    <div id="image_block" style="background-image: url('<?php echo $item->getImage(); ?>');" class="fresh-list-header">
+                                                        <a href="#" target="_blank" class="fresh- fresh-logo"><i class="icon-apple-small"></i><img src="<?php echo $this->getSkinUrl('images/logo-main.png') ?>" alt="<?php echo $this->__('fresh logo white') ?>"></a>
+                                                        <div class="fresh-list-header-edit-saved"><i class="fa fa-check"></i>saved</div>
+                                                        <div class="fresh-list-header-links">
+                                                            <div class="fresh-list-favorite"><i class="fa fa-star"></i>
+                                                                <div class="text">Favorite</div>
+                                                            </div>
+                                                            <div class="fresh-list-share fresh-list-header-with-dropdown"><i class="fa fa-share-square-o"></i>
+                                                                <div class="text">Share</div>
+                                                                <div class="fresh-list-header-dropdown">
+                                                                    <a href="" target="_blank" class="fresh-list-header-dropdown-share-facebook"><i class="fa fa-facebook"></i><?php echo $this->__('Share on Facebook') ?></a>
+                                                                    <a href="" target="_blank" class="fresh-list-header-dropdown-share-twitter"><i class="fa fa-twitter"></i><?php echo $this->__('Share on Twitter') ?></a>
+                                                                    <div class="fresh-list-header-dropdown-share-link"><i class="fa fa-paperclip"></i>
+                                                                        <input readonly="" type="text" value="#">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="fresh-list-options fresh-list-header-with-dropdown">
+                                                                <div class="fa fa-cog"></div>
+                                                                <div class="text">Options</div>
+                                                                <div class="fresh-list-header-dropdown">
+                                                                    <div class="fresh-list-header-dropdown-edit">
+                                                                        <div class="fa fa-edit"></div>
+                                                                        Edit List
+                                                                    </div>
+                                                                    <div class="fresh-list-header-dropdown-delete">
+                                                                        <div class="fa fa-trash-o"></div>
+                                                                        Delete List
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="fresh-list-header-details">
+                                                            <div class="fresh-list-header-title">
+                                                                <div class="fresh-list-view-mode"><?php echo $item->getTitle(); ?></div>                                                
+                                                            </div>
+                                                            <div class="fresh-list-header-autor">
+                                                                <div class="fresh-list-header-avatar">
+                                                                    <img src="<?php echo $listOwnerImage; ?>" alt="<?php echo $this->__('User avatar') ?>">
+                                                                </div>
+                                                                <a data-user="<?php echo $item->getCustomerId(); ?>" class="fresh-list-header-name"><?php echo $this->__('by %s', $listOwner->getName()); ?></a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="fresh-list-content fresh-list-nodirections">
+                                                        <ul class="fresh-list-tabs nav-tabs">
+                                                            <li class="fresh-list-tab active"><a href="#description" data-toggle="tab"><span class="fresh-list-tab-text"><?php echo $this->__('Description') ?></span></a></li>
+                                                            <li class="fresh-list-tab"><a href="#directions" data-toggle="tab"><span class="fresh-list-tab-text"><?php echo $this->__('Directions') ?></span></a></li>
+                                                        </ul>
+                                                        <div class="fresh-list-tab-containers tab-content">
+                                                            <div id="description" class="fresh-list-container-products active tab-pane">
+                                                                <div class="fresh-list-short-description">
+                                                                    <div class="fresh-list-edit-input"><?php echo $item->getDescription(); ?></div>
+                                                                </div>                                               
+                                                                <div class="fresh-list-products">
+                                                                    <?php if (count($listItems) > 0): ?>                                                        
+                                                                        <?php foreach ($listItems as $listItem): ?>
+                                                                            <?php
+                                                                            $product = $this->getProductById($listItem->getProductId(), $listItem->getStoreId(), $listItem->getParams());
+                                                                            $isVisibleProduct = $product->isVisibleInSiteVisibility();
+                                                                            $cartQty = $helper->cartExist($product);
+                                                                            ?>
+                                                                            <div id="tr_<?php echo $listItem->getShoppinglistItemId() ?>" class="fresh-list-product product<?php echo $product->getId() ?> fresh-list-product-no-children">
+                                                                                <div class="fresh-list-product-content">
+                                                                                    <div class="fresh-list-product-reorder"><i class="fa fa-bars"></i></div>                                                                            
+                                                                                    <div class="fresh-list-product-details">
+                                                                                        <div class="fresh-list-product-image">
+                                                                                            <a class="product-image" href="<?php echo $this->getProductUrl($product) ?>" title="<?php echo $this->htmlEscape($product->getName()) ?>"><img src="<?php echo $this->helper('catalog/image')->init($product, 'small_image')->resize(50, 50); ?>" width="50" height="50" alt="<?php echo $this->htmlEscape($product->getName()) ?>" /></a>
+                                                                                            <!--<span class="incart"></span>-->
+                                                                                        </div>
+                                                                                        <div class="fresh-list-product-name"><span class="qty">1.0</span><span class="name"><a href="<?php echo $this->getProductUrl($product) ?>"><?php echo $this->htmlEscape($product->getName()); ?></a></span></div>
+                                                                                        <div class="fresh-list-product-size"><?php echo $this->getPriceHtml($product) ?></div>
+                                                                                        <?php if (count($options) > 0): ?>
+                                                                                            <div class="fresh-list-product-options">
+                                                                                                <div class="truncated">
+                                                                                                    <div class="truncated_full_value">                            
+                                                                                                        <div class="item-options">                                    
+                                                                                                            <dl>
+                                                                                                                <?php foreach ($options as $option): ?>
+                                                                                                                    <dt><?php echo $this->escapeHtml($option['label']) ?></dt>
+                                                                                                                    <dd>
+                                                                                                                        <?php if (is_array($option['value'])): ?>
+                                                                                                                            <?php echo nl2br(implode("\n", $option['value'])) ?>
+                                                                                                                        <?php else: ?>
+                                                                                                                            <?php echo $option['value'] ?>
+                                                                                                                        <?php endif; ?>
+                                                                                                                    </dd>
+                                                                                                                <?php endforeach; ?>
+                                                                                                            </dl>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <a href="#" onclick="return false;" class="details"><?php echo $this->__('View Details') ?></a>
+                                                                                                </div>    
+                                                                                            </div>
+                                                                                        <?php endif; ?>                                                                                
+                                                                                    </div>
+                                                                                    <?php /*<div class="fresh-list-adding-and-removing" id="products_item_btns">
+                                                                                        <button type="button" class="products__item__btn update-cart minus" onclick="afterCartUpdate(<?php echo $listItem->getProductId();?>)" data-redirect="<?php echo $helper->getRemoveFromCartUrl($product) ?>"<?php if (!$cartQty): ?> style="display:none;"<?php endif; ?>><i class="ic-icn-minus-bold"></i></button>
+                                                                                        <button type="button" class="products__item__btn update-cart plus" onclick="afterCartUpdate(<?php echo $listItem->getProductId();?>)" data-redirect="<?php echo $helper->getAddToCartUrl($product) ?>"><i class="ic-icn-plus-bold"></i><span>Add</span></button>
+                                                                                        <!--<a href="#" onclick="addProductToCart(<?php echo $listItem->getShoppinglistItemId() ?>); return false;" class="fresh-list-product-add"><i class="fa fa-plus"></i>Add</a>-->                                                                            
+                                                                                    </div>
+																					<div class="fresh-list-adding-and-removing"><?php // product-overview__control ?>
+																						<button type="button" class="product-overview__control__btn product-overview__control__btn--plus update-cart" data-redirect="<?php echo $helper->getAddToCartUrl($product) ?>"><i class="ic-icn-plus-bold"></i></button>
+																						<button type="button" class="product-overview__control__btn product-overview__control__btn--minus update-cart" data-redirect="<?php echo $helper->getRemoveFromCartUrl($product) ?>" <?php if(!$helper->cartExist($product)): ?> style="display:none"<?php endif ?>><i class="ic-icn-minus-bold"></i></button>
+																					</div>*/?>
+																					
+																					<div class="fresh-list-buttons products__item__btns-box">
+																						<button type="button" class="products__item__btn update-cart minus" data-redirect="<?php echo $helper->getRemoveFromCartUrl($product) ?>" <?php if(!$helper->cartExist($product)): ?> style="display:none"<?php endif ?>><i class="ic-icn-minus-bold"></i></button>
+																						<button type="button" class="products__item__btn update-cart plus" data-redirect="<?php echo $helper->getAddToCartUrl($product) ?>"><i class="ic-icn-plus-bold"></i><span><?php echo $this->__('Add') ?></span></button>
+																					</div>
+                                                                                </div>
+                                                                                <div class="fresh-list-products-children"></div>
+                                                                            </div>
+                                                                        <?php endforeach ?>                                                            
+                                                                    <?php else: ?>
+                                                                        <p><?php echo $this->__('You have no items in your shopping list.') ?></p>
+                                                                    <?php endif ?>                                                    
+                                                                </div>
+                                                                <div class="fresh-list-add-all-wrapper">
+                                                                    <a href="<?php echo $listHelper->getListToCartUrl($item) ?>" target="_blank" class="fresh-list-add-all"><i class="fa fa-plus"></i><?php echo $this->__('Add All') ?></a>
+                                                                </div>
+                                                            </div>
+                                                            <div id="directions" class="fresh-list-directions tab-pane">
+                                                                <div class="fresh-list-view-mode">
+                                                                    <div class="fresh-list-description"></div>
+                                                                </div>
+                                                                <div class="fresh-list-edit-input fresh-list-ingredients"><?php echo $item->getIngredients(); ?></div>
+                                                                <div class="fresh-list-edit-input fresh-list-description"><?php echo $item->getDirections(); ?></div>                                               
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="fresh-list-footer"><a href="#" target="_blank" class="fresh-footer-link"><?php echo $this->__('Find these products and more at %s', '<span>freshtodommot.com</span>'); ?></a></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php endforeach ?>                          
+                        </div>
+                    <?php else: ?>
+                        <p><?php echo $this->__('You have no shopping lists.') ?></p>
+                    <?php endif ?>
+                </div>
+            </div>
+        </div>
+    </div>    
+    <script type="text/javascript">
+        //<![CDATA[
+        var dataForm = new VarienForm('create_list_form', true);
+        function afterCartUpdate(pid) {
+            new Ajax.Request("<?php echo $this->getAjaxUrl() ?>afterCartUpdate/?p=" + pid, {
+                method: 'get',
+                onSuccess: function (transport) {
+                    $('products_item_btns').innerHTML = transport.responseText;
+                }
+            });
+        }
+        //]]>
+    </script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+</div>

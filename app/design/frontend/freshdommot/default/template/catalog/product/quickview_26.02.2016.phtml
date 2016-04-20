@@ -1,0 +1,44 @@
+<?php
+$helper = Mage::helper('fresh_local');
+$_product = $this->getProduct();
+?>
+
+<div class="modal-dialog product<?php echo $_product->getId() ?> modal-lg">
+	<div class="modal-content">
+		<div class="modal-body">
+			<button type="button" data-dismiss="modal" aria-hidden="true" class="close"><i class="ic-icn-x"></i></button>
+			<?php /*<form action="<?php echo $helper->getAddToCartUrl($_product) ?>" method="post" id="product_addtocart_form"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>*/ ?>
+				<?php //echo $this->getBlockHtml('formkey') ?>
+				<?php /*<div class="no-display">
+					<input type="hidden" name="product" value="<?php echo $_product->getId() ?>" />
+					<input type="hidden" name="related_product" id="related-products-field" value="" />
+					<input type="hidden" name="product-view-mode" id="product-view-mode" value="full" />
+				</div>*/ ?>
+				<div class="row">
+					<div class="col-md-6">
+						  <div class="product-overview__img-box">
+							<img src="<?php echo Mage::helper('catalog/image')->init($_product, 'image')->resize(600, 600); ?>" 
+								title="<?php echo $this->stripTags($this->getImageLabel($_product, 'image'), null, true) ?>" 
+								alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'image'), null, true) ?>" class="product-overview__img">
+						  </div>
+					</div>
+					<div class="col-md-6">
+						<h3 class="product-overview__title"><?php echo $_product->getName(); ?></h3>
+						<span class="product-overview__info"><?php echo $_product->getShortDescription(); ?></span>
+						<span class="product-overview__price"><?php echo $this->getPriceHtml($_product); ?></span>
+						<div class="product-overview__btn-wrap">
+							<?php /*<button type="button" class="product-overview__btn"><span><strong>1</strong> in Cart</span></button>*/ ?>
+							<?php echo $this->getChildHtml('addtocart') ?>
+						</div>
+						<ul class="product-overview__list">
+							<?php echo $this->getChildHtml('addto') ?>
+							<li><a href="<?php echo $helper->getFavoritesUrl($_product) ?>"><i class="ic-icn-star"></i><span>Favorite</span></a></li>
+							<li><a href=""><i class="ic-icn-receipt"></i><span>Add to List</span></a></li>
+							<li><a href=""><i class="ic-icn-flag"></i><span>Incorrect info?</span></a></li>
+						</ul>
+					</div>
+				</div>
+			<?php /*</form>*/ ?>
+		</div>
+	</div>
+</div>

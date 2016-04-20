@@ -1,0 +1,145 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * iKantam LLC
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the iKantam EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://magento.ikantam.com/store/license-agreement
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade
+ * ExtendedFaq Module to newer versions in the future.
+ *
+ * @category   Ikantam
+ * @package    Ikantam_ExtendedFaq
+ * @author     iKantam Team <support@ikantam.com>
+ * @copyright  Copyright (c) 2012 iKantam LLC (http://www.ikantam.com)
+ * @license    http://magento.ikantam.com/store/license-agreement  iKantam EULA
+ */
+-->
+<config>
+	<modules>
+		<Ikantam_ExtendedFaq>
+			<version>1.0.0.0</version>
+		</Ikantam_ExtendedFaq>
+	</modules>
+	
+	<global>
+		<blocks>
+			<extendedfaq>
+				<class>Ikantam_ExtendedFaq_Block</class>
+			</extendedfaq>
+		</blocks>
+		
+		<models>
+			<extendedfaq>
+				<class>Ikantam_ExtendedFaq_Model</class>
+				<resourceModel>extendedfaq_resource</resourceModel>
+			</extendedfaq>
+			<extendedfaq_resource>
+				<class>Ikantam_ExtendedFaq_Model_Resource</class>
+				<deprecatedNode>extendedfaq_mysql4</deprecatedNode>
+				<entities>
+					<faq>
+						<table>ikantam_extended_faq</table>
+					</faq>
+					<category>
+						<table>ikantam_extended_faq_category</table>
+					</category>
+				</entities>
+			</extendedfaq_resource>
+		</models>
+		
+		<resources>
+			<extendedfaq_setup>
+				<setup>
+					<module>Ikantam_ExtendedFaq</module>
+					<class>Ikantam_ExtendedFaq_Model_Resource_Setup</class>
+				</setup>
+			</extendedfaq_setup>
+		</resources>
+		
+		<helpers>
+			<extendedfaq>
+				<class>Ikantam_ExtendedFaq_Helper</class>
+			</extendedfaq>
+		</helpers> 
+	</global>
+	
+	<default>
+		<web>
+            <routers>
+                <extendedfaq>
+                    <area>frontend</area>
+                    <class>Ikantam_ExtendedFaq_Controller_Extendedfaq</class>
+                </extendedfaq>
+            </routers>
+        </web>
+    </default>
+	
+	<frontend>
+		<routers>
+			<extendedfaq>
+				<use>extendedfaq</use>
+				<args>
+					<module>Ikantam_ExtendedFaq</module>
+					<frontName>faq</frontName>
+				</args>
+			</extendedfaq>
+		</routers>
+		
+		<layout>
+			<updates>
+				<extendedfaq>
+					<file>fresh_faq.xml</file>
+				</extendedfaq>
+			</updates>
+		</layout>
+		<translate>
+            <modules>
+                <ikantam_extendedfaq>
+                    <files>
+                        <default>Ikantam_ExtendedFaq.csv</default>
+                    </files>
+                </ikantam_extendedfaq>
+            </modules>
+        </translate>
+	</frontend>
+	
+	<admin>
+		<routers>
+            <extendedfaq>
+                <use>admin</use>
+                <args>
+                    <module>Ikantam_ExtendedFaq</module>
+                    <frontName>extendedfaq</frontName>
+                </args>
+            </extendedfaq>
+        </routers>
+	</admin>
+	
+	<adminhtml>
+		<layout>
+			<updates>
+				<extendedfaq>
+					<file>ikantam/extended_faq.xml</file>
+				</extendedfaq>
+			</updates>
+		</layout>
+		<translate>
+            <modules>
+                <ikantam_extendedfaq>
+                    <files>
+                        <default>Ikantam_ExtendedFaq.csv</default>
+                    </files>
+                </ikantam_extendedfaq>
+            </modules>
+        </translate>
+	</adminhtml>
+	
+</config>

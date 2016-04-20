@@ -1,0 +1,186 @@
+<?xml version="1.0"?>
+<!-- 
+/**
+ * MageWorx
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the MageWorx EULA that is bundled with
+ * this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.mageworx.com/LICENSE-1.0.html
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade the extension
+ * to newer versions in the future. If you wish to customize the extension
+ * for your needs please refer to http://www.mageworx.com/ for more information
+ *
+ * @category   MageWorx
+ * @package    MageWorx_ShoppingList
+ * @copyright  Copyright (c) 2012 MageWorx (http://www.mageworx.com/)
+ * @license    http://www.mageworx.com/LICENSE-1.0.html
+ */
+
+/**
+ * Shopping List extension
+ *
+ * @category   MageWorx
+ * @package    MageWorx_ShoppingList
+ * @author     MageWorx Dev Team
+ */
+-->
+<config>
+    <modules>
+        <MageWorx_ShoppingList>
+            <version>1.1.5</version>
+        </MageWorx_ShoppingList>
+    </modules>
+    <frontend>
+        <routers>
+            <shoppinglist>
+                <use>standard</use>
+                <args>
+                    <module>MageWorx_ShoppingList</module>
+                    <frontName>shoppinglist</frontName>
+                </args>
+            </shoppinglist>
+        </routers>
+        <translate>
+            <modules>
+                <MageWorx_ShoppingList>
+                    <files>
+                        <default>MageWorx_ShoppingList.csv</default>
+                    </files>
+                </MageWorx_ShoppingList>
+            </modules>
+        </translate>
+        <layout>
+            <updates>
+                <shoppinglist module="MageWorx_ShoppingList">
+                    <file>shoppinglist.xml</file>
+                </shoppinglist>
+            </updates>
+        </layout>
+        <secure_url>
+            <shoppinglist>/shoppinglist/</shoppinglist>
+        </secure_url>
+    </frontend>
+    <admin>
+        <routers>
+            <shoppinglist>
+                <use>admin</use>
+                <args>
+                    <module>MageWorx_ShoppingList</module>
+                    <frontName>shoppinglist</frontName>
+                </args>
+            </shoppinglist>
+        </routers>
+    </admin>
+    <global>
+        <blocks>
+            <shoppinglist>
+                <class>MageWorx_ShoppingList_Block</class>
+            </shoppinglist>
+<!--            <wishlist>
+                <rewrite>
+                    <links>MageWorx_ShoppingList_Block_Wishlist_Links</links>
+                </rewrite>
+            </wishlist>-->
+        </blocks>
+        <models>
+            <shoppinglist>
+                <class>MageWorx_ShoppingList_Model</class>
+                <resourceModel>shoppinglist_mysql4</resourceModel>
+            </shoppinglist>
+            <shoppinglist_mysql4>
+                <class>MageWorx_ShoppingList_Model_Mysql4</class>
+                <entities>
+                    <list>
+                        <table>shoppinglist_list</table>
+                    </list>
+                    <item>
+                        <table>shoppinglist_item</table>
+                    </item>
+                </entities>
+            </shoppinglist_mysql4>
+        </models>
+        <helpers>
+            <shoppinglist>
+                <class>MageWorx_ShoppingList_Helper</class>
+            </shoppinglist>
+            <wishlist>
+                <rewrite>
+                    <data>MageWorx_ShoppingList_Helper_Wishlist_Data</data>
+                </rewrite>
+            </wishlist>                
+        </helpers>
+        <resources>
+            <shoppinglist_setup>
+                <setup>
+                    <module>MageWorx_ShoppingList</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </shoppinglist_setup>
+            <shoppinglist_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </shoppinglist_write>
+            <shoppinglist_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </shoppinglist_read>
+        </resources>
+    </global>
+    <adminhtml>
+<!--         <acl>
+            <resources>
+                <all>
+                    <title>Allow Everything</title>
+                </all>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <mageworx_customers translate="title" module="mageworx">
+                                            <title>MageWorx &gt; Customers</title>
+                                            <sort_order>1</sort_order> 
+                                            <children>
+                                                <shoppinglist translate="title" module="shoppinglist">
+                                                    <title>Shopping List</title>
+                                                </shoppinglist>
+                                            </children>
+                                        </mageworx_customers>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl> -->
+        <translate>
+            <modules>
+                <MageWorx_ShoppingList>
+                    <files>
+                        <default>MageWorx_ShoppingList.csv</default>
+                    </files>
+                </MageWorx_ShoppingList>
+            </modules>
+        </translate>
+    </adminhtml>
+    <default>
+        <mageworx_customers>
+            <shoppinglist>
+                <enabled>1</enabled>
+                <scope>0</scope>
+            </shoppinglist>
+        </mageworx_customers>
+    </default>
+</config>

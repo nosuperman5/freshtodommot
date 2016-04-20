@@ -1,0 +1,27 @@
+<?php
+    $_cartQty = $this->getSummaryCount();
+    if(empty($_cartQty)) {
+        $_cartQty = 0;
+    }
+?>
+<?php if($_cartQty): ?>
+<div class="header__bottom__item header__bottom__item--cart">
+	<div data-toggle-container class="header-minicart">
+		<div class="skip-link skip-cart">
+			<button data-toggle-btn class="skip-cart__btn"><i class="ic-icn-arrow-right-small"></i></button>
+			<div class="count"><i class="ic-icn-cart"></i><span><?php echo $_cartQty; ?></span></div>
+			<div class="total">
+				<div class="total__sum">
+					<?php echo Mage::helper('checkout')->formatPrice($this->getChild('minicart_content')->getSubtotal()) ?>
+					<?php if ($_subtotalInclTax = $this->getChild('minicart_content')->getSubtotalInclTax()): ?>
+						(<?php echo Mage::helper('checkout')->formatPrice($_subtotalInclTax) ?> <?php echo Mage::helper('tax')->getIncExcText(true) ?>)
+                    <?php endif; ?>
+					</div><a href="<?php echo $this->getUrl('checkout/onepage') //$this->helper('checkout/cart')->getCartUrl(); ?>" class="total__btn"><?php echo $this->__('Checkout'); ?></a>
+			</div>
+		</div>
+		<div id="header-cart" data-toggle-dropdown class="block-cart">
+			<?php echo $this->getChildHtml('minicart_content');?>
+		</div>
+	</div>
+</div>
+<?php endif; ?>

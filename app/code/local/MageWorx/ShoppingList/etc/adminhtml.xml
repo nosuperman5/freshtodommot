@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<config>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <mageworx_customers>
+                                        <title>Mageworx Shopping List Configuration Section</title>
+                                    </mageworx_customers>
+                                </children>
+                            </config>
+                            <!-- <extendedfaq>
+                                <title>Extended Faq</title>
+                                <sort_order>10</sort_order>
+                                <children>
+                                    <question>
+                                        <title>Manage Questions</title>
+                                        <sort_order>110</sort_order>
+                                    </question>
+                                    <category>
+                                        <title>Manage Categories</title>
+                                        <sort_order>120</sort_order>
+                                    </category>
+                                </children>
+                            </extendedfaq> -->
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

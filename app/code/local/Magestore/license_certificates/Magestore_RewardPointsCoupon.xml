@@ -1,0 +1,7 @@
+<config>
+   <Magestore_RewardPointsCoupon>
+      <name>Reward Points Coupon</name>
+      <type>depend</type>
+      <depend>Magestore_RewardPoints</depend>
+   </Magestore_RewardPointsCoupon>
+</config>

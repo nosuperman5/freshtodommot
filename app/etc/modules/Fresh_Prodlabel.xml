@@ -1,0 +1,11 @@
+<config>
+    <modules>
+        <Fresh_Prodlabel>
+            <active>true</active>
+            <codePool>local</codePool>
+            <depends>
+                <Mage_Adminhtml />
+            </depends>
+        </Fresh_Prodlabel>
+    </modules>
+</config>

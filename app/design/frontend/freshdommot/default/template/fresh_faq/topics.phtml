@@ -1,0 +1,84 @@
+<?php
+/**
+ * iKantam LLC
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the iKantam EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://magento.ikantam.com/store/license-agreement
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade
+ * ExtendedFaq Module to newer versions in the future.
+ *
+ * @category   Ikantam
+ * @package    Ikantam_ExtendedFaq
+ * @author     iKantam Team <support@ikantam.com>
+ * @copyright  Copyright (c) 2012 iKantam LLC (http://www.ikantam.com)
+ * @license    http://magento.ikantam.com/store/license-agreement  iKantam EULA
+ */
+?>
+
+<?php /*<div class="faq-topics" id="topics">
+	<?php foreach ($this->getCategories() as $category) : ?>
+		<?php if ($this->getQuestions($category->getId())->getSize()) : ?>
+		<img alt="<?php echo $this->htmlEscape($category->getTitle())?>" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA) . 'wysiwyg/faq/' . $category->getId() . '.png' ?>" />
+		<h4>
+			<a href="javascript:void(0);" onclick="slide_up('category<?php echo $category->getId(); ?>')">
+				<?php echo $this->htmlEscape($category->getTitle()); ?>
+			</a>
+		</h4>
+	
+		<?php <div style="display:none;" id="category<?php echo $category->getId(); ?>">
+			<ol>
+				<?php $count = 1; ?>
+				<?php foreach ($this->getQuestions($category->getId()) as $question) : ?>
+					<li>
+						<a href="<?php echo $this->__('#%s-%d', $this->getAnchor($category), $count); ?>">
+						<?php echo $this->__("%d. %s", $count++, $this->htmlEscape($question->getQuestion())); ; ?>
+					</a></li>
+				<?php endforeach; ?>
+			<ol>
+		</div> ?>
+		<?php endif; ?>
+	<?php endforeach; ?>
+</div> */ ?>
+
+
+
+<?php /*
+<script>
+	function slide_up(element){
+		new Effect.toggle(element, 'Slide', {duration:0.25});
+	}
+</script>*/ ?>
+
+
+
+<ul class="faq-topics nav-tabs">
+	<?php foreach ($this->getCategories() as $category) : ?>
+		<?php if ($this->getQuestions($category->getId())->getSize()) : ?>
+		<?php /*<img alt="<?php echo $this->htmlEscape($category->getTitle())?>" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA) . 'wysiwyg/faq/' . $category->getId() . '.png' ?>" />
+		<h4>
+			<a href="javascript:void(0);" onclick="slide_up('category<?php echo $category->getId(); ?>')">
+				<?php echo $this->htmlEscape($category->getTitle()); ?>
+			</a>
+		</h4>*/ ?>
+		
+		<li class="faq-topics__item">
+			<a href="#tab-pane<?php echo $category->getId() ?>" data-toggle="tab" class="faq-topics__item__link">
+				<span class="faq-topics__item__link__inner"><i class="icon-faq-<?php echo $category->getId() ?>"></i><span class="faq-topics__item__title"><?php echo $this->htmlEscape($category->getTitle())?></span></span>
+			</a>
+		</li>
+		<?php endif; ?>
+	<?php endforeach; ?>
+	<?php /*
+	<li class="faq-topics__item"><a href="#pricing" data-toggle="tab" class="faq-topics__item__link"><span class="faq-topics__item__link__inner"><i class="icon-pricing"></i><span class="faq-topics__item__title">Pricing</span></span></a></li>
+	<li class="faq-topics__item"><a href="#accountSettings" data-toggle="tab" class="faq-topics__item__link"><span class="faq-topics__item__link__inner"><i class="icon-setting"></i><span class="faq-topics__item__title">Account Settings</span></span></a></li>
+	<li class="faq-topics__item"><a href="#payments" data-toggle="tab" class="faq-topics__item__link"><span class="faq-topics__item__link__inner"><i class="icon-payments"></i><span class="faq-topics__item__title">Payments</span></span></a></li>
+	<li class="faq-topics__item"><a href="#placingAnOrder" data-toggle="tab" class="faq-topics__item__link"><span class="faq-topics__item__link__inner"><i class="icon-cart-order"></i><span class="faq-topics__item__title">Placing an Order</span></span></a></li>
+	<li class="faq-topics__item"><a href="#modifying" data-toggle="tab" class="faq-topics__item__link"><span class="faq-topics__item__link__inner"><i class="icon-modifying"></i><span class="faq-topics__item__title">Modifying your Order</span></span></a></li>*/ ?>
+</ul>

@@ -1,0 +1,12 @@
+#prodlabel_layout_wrapper {
+    float: left;
+}
+#prodlabel_content_wrapper {
+    float: right;
+}
+#prodlabel_layout_wrapper , #prodlabel_content_wrapper {
+    width: 49%;
+}
+#prodlabel_button_wrapper {
+    clear:both;
+}

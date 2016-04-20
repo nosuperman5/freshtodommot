@@ -1,0 +1,199 @@
+<?php /*
+<div class="header-container">
+    <div class="header">
+        <?php if ($this->getIsHomePage()):?>
+        <h1 class="logo"><a href="<?php echo $this->getUrl('') ?>" title="<?php echo $this->getLogoAlt() ?>" class="logo"><img src="<?php echo $this->getLogoSrc() ?>" alt="<?php echo $this->getLogoAlt() ?>" /></a></h1>
+        <?php else:?>
+        <a href="<?php echo $this->getUrl('') ?>" title="<?php echo $this->getLogoAlt() ?>" class="logo"><strong><?php echo $this->getLogoAlt() ?></strong><img src="<?php echo $this->getLogoSrc() ?>" alt="<?php echo $this->getLogoAlt() ?>" /></a>
+        <?php endif?>
+        <div class="quick-access">
+            
+            <p class="welcome-msg"><?php echo $this->getChildHtml('welcome') ?> <?php echo $this->getAdditionalHtml() ?></p>
+            <?php echo $this->getChildHtml('topLinks') ?>
+            <?php echo $this->getChildHtml('store_language') ?>
+        </div>
+        <?php echo $this->getChildHtml('topContainer'); ?>
+    </div>
+</div>*/ ?>
+<?php //echo $this->getChildHtml('topMenu') ?>
+
+<header class="header">
+	<div class="header__top">
+		<div class="header__top__item header__top__item--logo">
+			<a href="<?php echo $this->getUrl('') ?>" title="<?php echo $this->getLogoAlt() ?>" class="logo-box"><span class="logo-box__small"><i class="icon-apple-small"></i></span><span class="logo-box__big"><img alt="<?php echo $this->getLogoAlt() ?>" src="<?php echo $this->getSkinUrl('images/logo-main.png') ?>" alt=""></span></a></div>
+		<?php echo $this->getChildHtml('topSearch') ?>
+		<div class="header__top__item header__top__item--account">
+			<div class="account-box">
+				<?php $customer = Mage::getSingleton('customer/session')->getCustomer(); ?>
+				<div class="dropdown account-box__dropdown">
+					<a data-toggle="dropdown" href="#" class="account-box__container"><span class="account-box__content">
+					<span class="account-box__content__title">Hi, <?php echo $customer->getFirstname() ?></span><span class="account-box__content__text">Your Account</span></span><i class="icon-account-arrow"></i></a>
+					<ul role="menu" aria-labelledby="dLabel" class="account-box__dropdown-menu">
+						<li><a href="<?php echo $this->getUrl('customer/account/edit') ?>"><i class="ic-icn-account"></i><span>See Account info</span></a></li>
+						<?php /*<li><a href=""><i class="ic-icn-star"></i><span>Instacart Express</span></a></li>*/ ?>
+						<li><a href="<?php echo $this->getUrl('sales/order/history') ?>"><i class="ic-icn-order-history"></i><span>Order History</span></a></li>
+						<li class="separate"><a href="<?php echo $this->getUrl('customer/account/logout') ?>"><i class="ic-icn-logout"></i><span>Logout</span></a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+  <div class="header__bottom">
+	<div class="header__bottom__item">
+		<div data-toggle-container class="departments">
+			<button data-toggle-btn class="btn-toggle"><i class="ic-icn-hamburger"></i><span>Departments</span></button>
+			<div data-toggle-dropdown class="departments__dropdown">
+				<div data-toggle-btn class="departments__dropdown__head">
+					<h5>Departments</h5>
+					<button class="departments__dropdown__head__btn"><i class="ic-icn-x"></i></button>
+				</div>
+				<div class="departments__dropdown__wrap-nav">
+					<div class="departments__dropdown__container">
+						<div class="departments__dropdown__other">
+							<ul class="departments__dropdown__other__menu">
+								<li><a href="">Favorites</a></li>
+							</ul>
+						</div>
+						<?php echo $this->getChildHtml('topMenu') ?>
+						<?php /*<div class="nav-container">
+							<ul id="nav">
+								<li class="level0 nav-1 first level-top parent"><a href="" class="level-top"><span>Furniture</span></a>
+									<ul class="level0">
+									<li class="level1 nav-1-1 first"><a href=""><span>Living Room</span></a></li>
+									<li class="level1 nav-1-2 last"><a href=""><span>Bedroom</span></a></li>
+								</ul>
+							  </li>
+							  <li class="level0 nav-2 level-top parent"><a href="" class="level-top"><span>Electronics</span></a>
+								<ul class="level0">
+								  <li class="level1 nav-2-1 first"><a href=""><span>Cell Phones</span></a></li>
+								  <li class="level1 nav-2-2 parent"><a href=""><span>Cameras</span></a>
+									<ul class="level1">
+									  <li class="level2 nav-2-2-1 first"><a href=""><span>Accessories</span></a></li>
+									  <li class="level2 nav-2-2-2 last"><a href=""><span>Digital Cameras</span></a></li>
+									</ul>
+								  </li>
+								  <li class="level1 nav-2-3 last parent"><a href=""><span>Computers</span></a>
+									<ul class="level1">
+									  <li class="level2 nav-2-3-1 first"><a href=""><span>Build Your Own</span></a></li>
+									  <li class="level2 nav-2-3-2"><a href=""><span>Laptops</span></a></li>
+									  <li class="level2 nav-2-3-3"><a href=""><span>Hard Drives</span></a></li>
+									  <li class="level2 nav-2-3-4"><a href=""><span>Monitors</span></a></li>
+									  <li class="level2 nav-2-3-5"><a href=""><span>RAM / Memory</span></a></li>
+									  <li class="level2 nav-2-3-6"><a href=""><span>Cases</span></a></li>
+									  <li class="level2 nav-2-3-7"><a href=""><span>Processors</span></a></li>
+									  <li class="level2 nav-2-3-8 last"><a href=""><span>Peripherals</span></a></li>
+									</ul>
+								  </li>
+								</ul>
+							  </li>
+							  <li class="level0 nav-3 last level-top parent"><a href="" class="level-top"><span>Apparel</span></a>
+								<ul class="level0">
+								  <li class="level1 nav-3-1 first"><a href=""><span>Shirts</span></a></li>
+								  <li class="level1 nav-3-2 parent"><a href=""><span>Shoes</span></a>
+									<ul class="level1">
+									  <li class="level2 nav-3-2-1 first"><a href=""><span>Mens</span></a></li>
+									  <li class="level2 nav-3-2-2 last"><a href=""><span>Womens</span></a></li>
+									</ul>
+								  </li>
+								  <li class="level1 nav-3-3 last"><a href=""><span>Hoodies</span></a></li>
+								</ul>
+							  </li>
+							</ul>
+						</div>*/ ?>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="header__bottom__item">
+		<div class="main-menu">
+			<button data-toggle="dropdown" class="btn-toggle md-min-hidden"><i class="ic-icn-hamburger"></i><span>Menu</span></button>
+			<ul role="menu" aria-labelledby="dLabel" class="main-menu__list">
+				<li><a href="<?php echo $this->getUrl('') ?>"><i class="ic-icn-home"></i><span>Home</span></a></li>
+				<li><a href="<?php echo Mage::getModel('catalog/category')->load(17)->getUrl() ?>"><i class="ic-icn-lists-and-recipes"></i><span>Recipes</span></a></li>
+				<li><a href="<?php echo $this->getUrl('shoppinglist') ?>"><i class="ic-icn-lists-and-recipes"></i><span>Lists</span></a></li>
+				<li><a href="<?php echo $this->getUrl(Mage::helper('extendedfaq')->getUrl()) ?>"><i class="ic-icn-help"></i><span>Help</span></a></li>
+				<li><a href="<?php echo $this->getUrl('rewardpointsreferfriends') ?>"><i class="ic-icn-money"></i><span>Refer friends, get &#8358;25</span></a></li><!-- data-toggle="modal" data-target="#rewardpointsreferfriends-popup"-->
+				<li><a href=""><i class="ic-icn-more"></i><span>More</span></a></li>
+			</ul>
+		</div>
+	</div>
+	<div id="minicart_head">
+		<?php echo $this->getChildHtml('minicart_head'); ?>
+	</div>
+	<?php /* <div class="header__bottom__item header__bottom__item--cart">
+	  <div data-toggle-container class="header-minicart">
+		<div class="skip-link skip-cart">
+		  <button data-toggle-btn class="skip-cart__btn"><i class="ic-icn-arrow-right-small"></i></button>
+		  <div class="count"><i class="ic-icn-cart"></i><span>3</span></div>
+		  <div class="total">
+			<div class="total__sum">$14.23</div><a href="" class="total__btn">Checkout</a>
+		  </div>
+		</div>
+		<div id="header-cart" data-toggle-dropdown class="block-cart">
+		  <button data-toggle-btn class="header-cart__btn"><i class="ic-icn-arrow-right-small-bold"></i></button>
+		  <div id="minicart-error-message" class="minicart-message"></div>
+		  <div id="minicart-success-message" class="minicart-message"></div>
+		  <div class="minicart-wrapper">
+			<div class="minicart-wrapper__head">
+			  <div class="minicart-wrapper__head__icn"><i class="ic-icn-cart-filled"></i></div>
+			  <div class="minicart-wrapper__head__title">
+				<h4>Shopping Cart</h4>
+			  </div>
+			  <div class="minicart-wrapper__head__price"><span>&#8358;14.24</span></div>
+			</div>
+			<div id="minicart-widgets">
+			  <div class="block-content">
+				<p>Next Delivery: Today, 4pm - 5m</p>
+			  </div>
+			  <div class="free-shipp-box"><span class="text-free-shipp">Your first delivery is free!</span></div>
+			</div>
+			<div>
+			  <ul id="cart-sidebar" class="mini-products-list">
+				<li xmlns="http://www.w3.org/1999/html" class="item"><a href="" title="" class="product-image"><img src="images/img-product.jpg" alt=""></a>
+				  <div class="product-details">
+					<p class="product-name"><a href="">Green Leaf Lettuce</a></p><span class="product-info">each</span>
+					<table class="info-wrapper">
+					  <tbody>
+						<tr>
+						  <td><span class="price">&#8358;14.24</span></td>
+						</tr>
+					  </tbody>
+					</table>
+				  </div>
+				</li>
+				<li xmlns="http://www.w3.org/1999/html" class="item"><a href="" title="" class="product-image"><img src="images/img-product.jpg" alt=""></a>
+				  <div class="product-details">
+					<p class="product-name"><a href="">Green Leaf Lettuce</a></p><span class="product-info">each</span>
+					<table class="info-wrapper">
+					  <tbody>
+						<tr>
+						  <td><span class="price">&#8358;14.24</span></td>
+						</tr>
+					  </tbody>
+					</table>
+				  </div>
+				</li>
+				<li xmlns="http://www.w3.org/1999/html" class="item"><a href="" title="" class="product-image"><img src="images/img-product.jpg" alt=""></a>
+				  <div class="product-details">
+					<p class="product-name"><a href="">Green Leaf Lettuce</a></p><span class="product-info">each</span>
+					<table class="info-wrapper">
+					  <tbody>
+						<tr>
+						  <td><span class="price">&#8358;14.24</span></td>
+						</tr>
+					  </tbody>
+					</table>
+				  </div>
+				</li>
+			  </ul>
+			</div>
+			<div class="minicart-actions"><a href="" class="cart-link">Checkout<span class="cart-link__price">&#8358;14.24</span></a></div>
+		  </div>
+		</div>
+	  </div>
+	</div> */ ?>
+  </div>
+  <div data-toggle-shadow class="block-shadow"></div>
+</header>

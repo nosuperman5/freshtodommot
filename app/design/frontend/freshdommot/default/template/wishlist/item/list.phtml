@@ -1,0 +1,78 @@
+<?php
+    $columns = $this->getColumns();
+?>
+<table class="data-table" id="wishlist-table">
+    <thead>
+        <tr>
+            <?php foreach ($columns as $column): ?>
+                <th><?php echo $column->getTitle();?></th>
+            <?php endforeach; ?>
+        </tr>
+    </thead>
+    <tbody>
+        <?php if (count($this->getItems())): ?>
+            <?php foreach ($this->getItems() as $item): ?>
+                <tr id="item_<?php echo $item->getId();?>">
+					<?php //var_dump($item->getData()) ?>
+                    <?php foreach ($columns as $column): ?>
+                        <td><?php $column->setItem($item); echo $column->toHtml($item);?></td>
+                    <?php endforeach; ?>
+					<?php /*<td>
+						<a class="product-image" href="http://freshtodommot.com/test.html" title="Test">
+							<img src="http://freshtodommot.com/media/catalog/product/cache/1/small_image/113x113/9df78eab33525d08d6e5fb8d27136e95/2/_/2.png" width="113" height="113" alt="Test">
+						</a>
+					</td>
+					<td>
+						<?php $product = $item->getProduct(); ?>
+						<h3 class="product-name">
+							<a href="<?php echo $this->getProductUrl($item) ?>" title="<?php echo $this->escapeHtml($product->getName()) ?>"><?php echo $this->escapeHtml($product->getName()) ?></a>
+						</h3>
+
+						<div class="wishlist-sku">
+							<span><?php echo $this->__('SKU'); ?> <?php echo $this->escapeHtml($product->getSku()) ?></span>
+						</div>
+					</td>
+					<td>
+						<div class="cart-cell">
+							<div class="add-to-cart-alt">
+								<input type="text" pattern="\d*" class="input-text qty validate-not-negative-number" name="qty[2]" value="2">
+							</div>
+						</div>
+					</td>
+					<td>
+						<div class="cart-cell">	
+							<div class="price-box">
+								<span class="regular-price" id="product-price-1">
+									<span class="price">₦1.00</span>
+								</span>
+							</div>
+						</div>
+					</td>
+                    <td>
+						<div class="cart-cell">
+							<button type="button" title="Add to Cart" onclick="addWItemToCart(2);" class="button btn-cart"><span><span>Add to Cart</span></span></button>
+						</div>
+						<p><a class="link-edit button button-secondary" href="http://freshtodommot.com/wishlist/index/configure/id/2/">Edit</a></p>
+					</td>
+					<td>
+						<a href="http://freshtodommot.com/wishlist/index/remove/item/2/" onclick="return confirmRemoveWishlistItem();" title="Remove Item" class="btn-remove btn-remove2">Remove item</a>
+					</td>*/ ?>
+                </tr>
+            <?php endforeach ?>
+        <?php else: ?>
+            <td colspan="<?php echo count($columns);?>" class="wishlist-empty"><?php echo $this->__('This Wishlist has no Items');?></td>
+        <?php endif; ?>
+    </tbody>
+</table>
+<?php foreach ($columns as $column): ?>
+    <?php echo $column->getAdditionalHtml();?>
+<?php endforeach; ?>
+<script type="text/javascript">
+//<![CDATA[
+    decorateTable('wishlist-table');
+
+<?php foreach ($columns as $column): ?>
+    <?php echo $column->getJs();?>
+<?php endforeach; ?>
+//]]>
+</script>

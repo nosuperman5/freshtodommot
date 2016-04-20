@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<layout>
+    <adminhtml_prodlabel_view>
+        <reference name="head">
+            <action method="addCss">
+                <styleSheet>css/prodlabel/prodlabel.css</styleSheet>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="prodlabel/adminhtml_view" name="plview" />
+        </reference>        
+    </adminhtml_prodlabel_view>    
+</layout>
+

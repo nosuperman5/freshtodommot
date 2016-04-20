@@ -1,0 +1,114 @@
+<?php
+/**
+ * iKantam LLC
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the iKantam EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://magento.ikantam.com/store/license-agreement
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade
+ * ExtendedFaq Module to newer versions in the future.
+ *
+ * @category   Ikantam
+ * @package    Ikantam_ExtendedFaq
+ * @author     iKantam Team <support@ikantam.com>
+ * @copyright  Copyright (c) 2012 iKantam LLC (http://www.ikantam.com)
+ * @license    http://magento.ikantam.com/store/license-agreement  iKantam EULA
+ */
+?>
+
+<?php /*foreach ($this->getCategories() as $category) : ?>
+	<?php if ($this->getQuestions($category->getId())->getSize()) : ?>
+	<div style="display:none;" id="category<?php echo $category->getId(); ?>">
+		<h4><?php echo $this->htmlEscape($category->getTitle()); ?></h4>
+	
+		<?php $count = 1; ?>
+		<?php foreach ($this->getQuestions($category->getId()) as $question) : ?>
+			<div id="<?php echo $this->__('%s-%d', $this->getAnchor($category), $count); ?>">
+				<p>
+					<?php echo $this->__("%d. %s", $count++, nl2br($this->htmlEscape($question->getQuestion()))); ; ?>
+					<a class="back-to-top" href="#topics"><?php echo $this->__('(back to top)'); ?></a>
+				</p>
+				<p><?php echo nl2br($this->htmlEscape($question->getAnswer())); ?></p>
+			</div>
+		<?php endforeach; ?>
+	</div>
+	<?php endif; ?>
+<?php endforeach;*/ ?>
+
+<div class="tab-content">
+	<?php foreach ($this->getCategories() as $category) :
+		if ($this->getQuestions($category->getId())->getSize()) : ?>
+		<div id="tab-pane<?php echo $category->getId() ?>" class="tab-pane"><?php //active ?>
+			<h3 class="tab-pane__title"><i class="ic-icn-arrow-right-small-bold"></i><span><?php echo $this->htmlEscape($category->getTitle()); ?></span></h3>
+			<div class="tab-pane__container">
+				<?php /*<div class="tab-pane__container__head">
+					<h2 class="tab-pane__container__head__title">What is Fresh to dommot?</h2>
+					<p>Fresh to dommot is a grocery delivery service that delivers quality goods!</p>
+					<p>Exlplore the best shopping experience.</p>
+				</div>*/ ?>
+				<div id="accordion<?php echo $category->getId() ?>" class="panel-group">
+					<?php $count = 1; ?>
+					<?php foreach ($this->getQuestions($category->getId()) as $question) : ?>
+						<?php /*<div id="<?php echo $this->__('%s-%d', $this->getAnchor($category), $count); ?>">
+							<p>
+								<?php echo $this->__("%d. %s", $count++, nl2br($this->htmlEscape($question->getQuestion()))); ; ?>
+								<a class="back-to-top" href="#topics"><?php echo $this->__('(back to top)'); ?></a>
+							</p>
+							<p><?php echo nl2br($this->htmlEscape($question->getAnswer())); ?></p>
+						</div>*/ ?>
+						
+						<div class="panel">
+							<div class="panel-heading">
+								<h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion<?php echo $category->getId() ?>" href="#collapse<?php echo $category->getId() . '-' . $count ?>" class="collapsed">
+									<span class="panel-title__ic"></span><span><?php echo $this->__("%d. %s", $count, nl2br($this->htmlEscape($question->getQuestion()))); ; ?></span>
+								</a></h4>
+							</div>
+							<div id="collapse<?php echo $category->getId() . '-' . $count ?>" class="panel-collapse collapse">
+								<div class="panel-body"><?php echo nl2br($this->htmlEscape($question->getAnswer())); ?></div>
+							</div>
+						</div>
+						
+					<?php $count++;
+					endforeach; ?>
+					
+					<?php /*<div class="panel">
+						<div class="panel-heading">
+							<h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#collapse1" class="collapsed"><span class="panel-title__ic"></span><span>Where do you deliver?</span></a></h4>
+						</div>
+						<div id="collapse1" class="panel-collapse collapse">
+							<div class="panel-body">Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven&apos;t heard of them accusamus labore sustainable VHS.</div>
+						</div>
+					</div>
+					<div class="panel">
+						<div class="panel-heading">
+							<h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#collapse2" class="collapsed"><span class="panel-title__ic"></span><span>Where do you deliver?</span></a></h4>
+						</div>
+						<div id="collapse2" class="panel-collapse collapse">
+							<div class="panel-body">Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven&apos;t heard of them accusamus labore sustainable VHS.</div>
+						</div>
+					</div>
+					<div class="panel">
+						<div class="panel-heading">
+							<h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#collapse3" class="collapsed"><span class="panel-title__ic"></span><span>Where do you deliver?</span></a></h4>
+						</div>
+						<div id="collapse3" class="panel-collapse collapse">
+							<div class="panel-body">Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven&apos;t heard of them accusamus labore sustainable VHS.</div>
+						</div>
+					</div>*/ ?>
+				</div>
+			</div>
+		</div>
+	<?php /*<div id="pricing" class="tab-pane">...2</div>
+	<div id="accountSettings" class="tab-pane">...3</div>
+	<div id="payments" class="tab-pane">...4</div>
+	<div id="placingAnOrder" class="tab-pane">...5</div>
+	<div id="modifying" class="tab-pane">...6</div>*/ ?>
+	<?php endif;
+	endforeach; ?>
+</div>

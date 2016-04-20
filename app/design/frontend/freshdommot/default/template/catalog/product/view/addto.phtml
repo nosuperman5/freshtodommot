@@ -1,0 +1,95 @@
+<?php
+$helper = Mage::helper('fresh_local');
+$_product = $this->getProduct();
+?>
+<?php //$_wishlistSubmitUrl = $this->helper('wishlist')->getAddUrl($_product);    ?>
+
+<ul class="product-overview__list">					
+    <li><a class="wishlist-link<?php $helper->wishlistExist($_product->getId()) ?>" href="<?php //echo $_wishlistSubmitUrl ?><?php echo $helper->getFavoritesUrl($_product) ?>"><i class="ic-icn-star"></i><span>Favorite</span></a></li>
+    <li><a href="#" id="add_to_list" ><i class="ic-icn-receipt"></i><span>Add to List</span><i class="ic-icn-arrow-down-small" style="top:3px;"></i></a>
+        <div id="add_to_list_block" style="display: none;">
+            <form action="<?php echo $this->getUrl('shoppinglist/index/addToLists/') ?>" method="post" id="add_to_lists">
+                <?php foreach ($this->getCustomerLists() as $item): ?>
+                    <label>
+                        <input type="radio" value="<?php echo $item->getShoppinglistId() ?>" name="id"/>                                         
+                        <?php echo $this->htmlEscape($item->getTitle()) ?> (<?php echo $item->getProductCount(); ?>)
+                    </label>
+                    <br/>    
+                <?php endforeach ?>
+                <input type="radio" name="id" id="list_new" title="<?php echo $this->escapeHtml($this->__('New list:')) ?>" value="new_list" />
+                <input type="text" name="list_title" id="shoppinglist_title" size="24" onclick="$('list_new').checked = true;" value="<?php echo $this->escapeHtml($this->__('New List')) ?>"/>                
+                <br/>
+                <?php if (!$_product->isGrouped()): ?>
+                    <label>
+                        <?php echo $this->__('Qty:') ?>
+                        <input style="width: 20px;" type="text" name="qty" id="shoppinglist_qty" title="<?php echo $this->escapeHtml($this->__('Qty')) ?>" value="1" class="input-text" />                    
+                    </label>                       
+                <?php endif; ?>
+                <input type="hidden" name="product" value="<?php echo $_product->getId(); ?>"/>
+                <input type="hidden" name="dialog_mode" value="1"/> 
+                <button onclick="submitForm(this);" class="button" title="<?php echo $this->__('Add'); ?>" type="button"><span><?php echo $this->__('Add'); ?></span></button>
+            </form>
+        </div>
+    </li>
+    <li><a href=""><i class="ic-icn-flag"></i><span>Incorrect info?</span></a></li>
+</ul>
+
+</div>
+<script type="text/javascript">
+    //<![CDATA[        
+    function submitForm(obj) {
+        radio_value = false;
+        var inputs = obj.form.getInputs('radio');
+        inputs.each(function (elem) {
+            if (elem.checked)
+                radio_value = elem.value;
+        });
+
+        if (radio_value == false) {
+            alert('<?php echo $this->jsQuoteEscape($this->__('Please select the list.')) ?>');
+            return false;
+        }
+
+        if (radio_value == 'new_list' && $('shoppinglist_title').value.replace(/^\s+|\s+$/g, "") == "") {
+            alert('<?php echo $this->jsQuoteEscape($this->__('The title must not be empty.')) ?>');
+            return false;
+        }
+
+        if ($('shoppinglist_qty') && (parseInt($('shoppinglist_qty').value) == 0 || isNaN(parseInt($('shoppinglist_qty').value)))) {
+            alert('<?php echo $this->jsQuoteEscape($this->__('The Qty must be greater than zero.')) ?>');
+            $('shoppinglist_qty').focus();
+            return false;
+        }
+
+        //ShoppingList.submitForm(obj.form, 'post');
+//        var data = obj.form.serialize();
+//        var action = obj.form.action;
+        console.log(obj.form.serialize());
+        jQuery.post(obj.form.action, obj.form.serialize(), function(data){
+            if(data=='ok'){
+                window.location.reload();
+            }
+        });
+    }
+    jQuery(document).ready(function(){
+        jQuery("#add_to_list").click(function(){
+             jQuery("#add_to_list_block").toggle('slow');
+        });
+    });
+    //]]>
+</script>
+
+
+<?php /*
+  <ul class="add-to-links">
+  <?php if ($this->helper('wishlist')->isAllow()) : ?>
+  <li><a href="<?php echo $_wishlistSubmitUrl ?>" onclick="productAddToCartForm.submitLight(this, this.href); return false;" class="link-wishlist"><?php echo $this->__('Add to Wishlist') ?></a></li>
+  <?php endif; ?>
+  <?php
+  $_compareUrl = $this->helper('catalog/product_compare')->getAddUrl($_product);
+  ?>
+  <?php if($_compareUrl) : ?>
+  <li><span class="separator">|</span> <a href="<?php echo $_compareUrl ?>" class="link-compare"><?php echo $this->__('Add to Compare') ?></a></li>
+  <?php endif; ?>
+  </ul>
+ */ ?>

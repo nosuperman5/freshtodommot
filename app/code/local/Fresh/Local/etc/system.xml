@@ -1,0 +1,83 @@
+﻿<?xml version="1.0"?>
+<config>
+	<tabs>
+		<fresh translate="label" module="fresh_local">
+			<label>Fresh</label>
+			<sort_order>9999999</sort_order>
+		</fresh>
+	</tabs>
+	<sections>
+        <fresh_local translate="label" module="fresh_local">
+            <label>Configuration</label>
+            <tab>fresh</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>10</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+			<groups>
+				<options translate="label">
+                    <label>Options</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>10</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+					<fields>
+						<homepage_category translate="label">
+							<label>Homepage categories ids</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>10</sort_order>
+							<comment>Comma separated</comment>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>                    
+						</homepage_category>
+					</fields>
+                </options>
+				<access translate="label">
+                    <label>Access</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>20</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+					<fields>
+						<restricted translate="label">
+							<label>Access restricted</label>
+							<frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>10</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>                    
+						</restricted>
+						<allowed translate="label">
+							<label>Allowed Actions</label>
+                            <frontend_type>textarea</frontend_type>
+							<sort_order>20</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>        
+							<depends>
+                                <restricted>1</restricted>
+                            </depends>
+							<comment>Every action in new line</comment>
+						</allowed>
+						<redirect_url translate="label">
+							<label>Redirect Url</label>
+                            <frontend_type>text</frontend_type>
+							<sort_order>30</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>        
+							<depends>
+                                <restricted>1</restricted>
+                            </depends>
+						</redirect_url>
+					</fields>
+                </access>
+			</groups>
+        </fresh_local>
+    </sections> 
+</config>

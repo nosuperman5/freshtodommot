@@ -1,0 +1,222 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->getLang() ?>" lang="<?php echo $this->getLang() ?>">
+<head>
+<?php echo $this->getChildHtml('head') ?>
+</head>
+<body<?php echo $this->getBodyClass()?' class="'.$this->getBodyClass().'"':'' ?>>
+
+<?php if(Mage::getSingleton('customer/session')->isLoggedIn()){ ?>
+	<?php echo $this->getChildHtml('after_body_start') ?>
+	<div class="wrapper">
+		<?php echo $this->getChildHtml('global_notices') ?>
+		<div class="page">
+			<?php echo $this->getChildHtml('header') ?>
+			<div class="main-container col1-layout">
+				<div class="main">
+					<?php echo $this->getChildHtml('breadcrumbs') ?>
+					<div class="col-main">
+						<?php echo $this->getChildHtml('global_messages') ?>
+						<?php echo $this->getChildHtml('content') ?>
+					</div>
+				</div>
+			</div>
+			<?php echo $this->getChildHtml('footer') ?>
+			<?php echo $this->getChildHtml('global_cookie_notice') ?>
+			<?php echo $this->getChildHtml('before_body_end') ?>
+		</div>
+	</div>
+	<?php echo $this->getAbsoluteFooter() ?>
+<?php } else { ?>
+    <?php /*<section class="section-header">
+		<div class="header-home">
+			<div class="logo-home"><a href="<?php echo $this->getUrl('') ?>" class="logo-home__link"><img src="<?php echo $this->getSkinUrl(Mage::getStoreConfig('design/header/logo_src')) ?>" alt="<?php echo Mage::getStoreConfig('design/header/logo_alt') ?>"></a></div>
+			<div class="header-home__btn-box">
+				<a href="<?php echo Mage::getUrl('customer/account/create'); ?>" class="btn-success btn">Sign up</a>
+				<a href="<?php echo Mage::getUrl('customer/account/login'); ?>" class="btn-default btn">Sign in</a>
+			</div>
+		</div>
+		<div class="header-home__center-block"><a href="<?php echo Mage::getUrl('customer/account/create'); ?>" class="btn-success btn btn-md text-lc">Oya sign me up now now</a>
+			<p class="header-home__center-block__text">Already have an account?<a href="<?php echo Mage::getUrl('customer/account/login'); ?>"> Sign in</a></p>
+		</div>
+		<div class="header-home__bottom-block"><span class="header-home__bottom-block__text">How it works</span><a href="#second-section" class="header-home__bottom-block__btn"><i class="icon-arrow-bottom"></i></a></div>
+    </section>*/ ?>
+	
+	
+	<section class="section-header">
+      <?php /*<div class="header-home">
+        <div class="logo-home"><a href="<?php echo $this->getUrl('') ?>" class="logo-home__link"><img src="<?php echo $this->getSkinUrl(Mage::getStoreConfig('design/header/logo_src')) ?>" alt="<?php echo Mage::getStoreConfig('design/header/logo_alt') ?>"></a></div>
+        <div class="header-home__btn-box">
+			<a href="<?php echo Mage::getUrl('customer/account/create'); ?>" class="btn-success btn">Sign up</a>
+			<a href="<?php echo Mage::getUrl('customer/account/login'); ?>" class="btn-default btn">Sign in</a>
+		</div>
+      </div>*/ ?>
+	  <?php //echo $this->getChildHtml('default.header'); ?>
+	  <?php echo $this->getChildHtml('content') ?>
+      <div class="header-home__container">
+        <div class="header-home__center-block"><a href="<?php echo Mage::getUrl('customer/account/create'); ?>" class="btn-success btn btn-md text-lc">Oya sign me up now now</a>
+          <p class="header-home__center-block__text">Already have an account?<a href="<?php echo Mage::getUrl('customer/account/login'); ?>"> Sign in</a></p>
+        </div>
+        <div class="header-home__img">
+          <div class="header-home__img__inner"><img src="<?php echo $this->getSkinUrl('images/banner.jpg') ?>"></div>
+        </div>
+        <div class="header-home__bottom-block"><span class="header-home__bottom-block__text">How it works</span><a href="#howItWorks" class="header-home__bottom-block__btn"><i class="icon-arrow-bottom"></i></a></div>
+      </div>
+      <div class="section-perfections">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-sm-4 section-perfections__item"><span class="section-perfections__item__inner"><i class="icon-check-circly"></i><span class="section-perfections__title">fresh</span></span></div>
+            <div class="col-sm-4 section-perfections__item"><span class="section-perfections__item__inner"><i class="icon-check-circly"></i><span class="section-perfections__title">prepped</span></span></div>
+            <div class="col-sm-4 section-perfections__item"><span class="section-perfections__item__inner"><i class="icon-check-circly"></i><span class="section-perfections__title">delivered</span></span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+	
+    <?php /*<section class="section-perfections">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-sm-4 section-perfections__item"><i class="icon-check-circly"></i><span class="section-perfections__title">fresh</span></div>
+				<div class="col-sm-4 section-perfections__item"><i class="icon-check-circly"></i><span class="section-perfections__title">prepped</span></div>
+				<div class="col-sm-4 section-perfections__item"><i class="icon-check-circly"></i><span class="section-perfections__title">delivered</span></div>
+			</div>
+		</div>
+    </section>
+    <section id="howItWorks" class="section-steps">
+		<div style="background-image: url('<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA) ?>/wysiwyg/home/img-step1.jpg');" class="section-steps__item">
+			<div class="section-steps__item__inner">
+				<div class="container lg-fluid">
+					<div class="section-steps__item__number-box"><span class="section-steps__item__number">1</span></div>
+					<div class="section-steps__item__content">
+						<h4 class="section-steps__item__title">Place your order</h4>
+						<p>Order your fresh food items before 6pm.</p>
+						<p>Our website also  allows you to specify prepping instructions.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div style="background-image: url('<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA) ?>/wysiwyg/home/img-step2.jpg');" class="section-steps__item">
+			<div class="section-steps__item__inner">
+				<div class="container lg-fluid">
+					<div class="section-steps__item__number-box"><span class="section-steps__item__number">2</span></div>
+					<div class="section-steps__item__content">
+						<h4 class="section-steps__item__title">We'll shop for you</h4>
+						<p>Our fresh food experts are trained to only buy the freshest items.</p>
+						<p>Meat is purchased on the day of slaughter</p>
+						<p>and fish on the day that it is farmed from the water.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div style="background-image: url('<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA) ?>/wysiwyg/home/img-step3.jpg');" class="section-steps__item">
+			<div class="section-steps__item__inner">
+				<div class="container lg-fluid">
+					<div class="section-steps__item__number-box"><span class="section-steps__item__number">3</span></div>
+					<div class="section-steps__item__content">
+						<h4 class="section-steps__item__title">We'll prep and deliver to you</h4>
+						<p>We cut, clean, pick and pack to your spec and we deliver</p>
+						<p>on the date of purchase. Basically, our fish can go from</p>
+						<p>the water to your dinner plate in less than 12 hours!</p>
+					</div>
+				</div>
+			</div>
+			</div><a href="#section-review" class="next-section"><i class="icon-arrow-bottom-white"></i></a>
+		</div>
+    </section>*/ ?>
+	
+	<section id="howItWorks" class="section-steps">
+      <div style="background-image: url('<?php echo $this->getSkinUrl('images/img-step1.jpg'); ?>');" class="section-steps__item">
+        <div class="section-steps__item__inner">
+          <div class="container lg-fluid">
+            <div class="section-steps__item__number-box"><span class="section-steps__item__number">1</span></div>
+            <div class="section-steps__item__content">
+              <div class="section-steps__item__content__inner">
+                <h4 class="section-steps__item__title">Place your order</h4>
+                <p>Order your fresh food items before 6pm.</p>
+                <p>Our website also  allows you to specify prepping instructions.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="background-image: url('<?php echo $this->getSkinUrl('images/img-step2.jpg'); ?>');" class="section-steps__item">
+        <div class="section-steps__item__inner">
+          <div class="container lg-fluid">
+            <div class="section-steps__item__number-box"><span class="section-steps__item__number">2</span></div>
+            <div class="section-steps__item__content">
+              <div class="section-steps__item__content__inner">
+                <h4 class="section-steps__item__title">We'll shop for you</h4>
+                <p>Our fresh food experts are trained to only buy the freshest items.</p>
+                <p>Meat is purchased on the day of slaughter</p>
+                <p>and fish on the day that it is farmed from the water.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="background-image: url('<?php echo $this->getSkinUrl('images/img-step3.jpg'); ?>');" class="section-steps__item">
+        <div class="section-steps__item__inner">
+          <div class="container lg-fluid">
+            <div class="section-steps__item__number-box"><span class="section-steps__item__number">3</span></div>
+            <div class="section-steps__item__content">
+              <div class="section-steps__item__content__inner">
+                <h4 class="section-steps__item__title">We'll prep and deliver to you</h4>
+                <p>We cut, clean, pick and pack to your spec and we deliver</p>
+                <p>on the date of purchase. Basically, our fish can go from</p>
+                <p>the water to your dinner plate in less than 12 hours!</p>
+              </div>
+            </div>
+          </div>
+        </div><a href="#section-review" class="next-section"><i class="icon-arrow-bottom-white"></i></a>
+      </div>
+    </section>
+	
+    <?php /*<section style="background-image: url('<?php echo $this->getSkinUrl('images/img-review.jpg'); ?>')" class="section-review">
+		<div class="section-review__inner">
+			<div class="container lg-fluid">
+				<div class="section-review__content">
+					<p>I just ordered from Fresh do dommot for the first time last week. I was very impressed with my experience! I ordered a mix of basic pantry items, refrigerated specialties, and produce totaling about $30- just the stuff I needed for the week. Very handy, I love it!</p>
+					<div class="section-review__content__rerson">
+						<div style="background-image: url('<?php echo $this->getSkinUrl('images/img-person.png'); ?>')" class="section-review__content__rerson__img"></div>
+						<div class="section-review__content__rerson__info"><span class="section-review__content__rerson__name">Daniel Omeruo</span><span class="section-review__content__rerson__status">Client</span></div>
+					</div>
+				</div>
+			</div>
+		</div>
+    </section>*/ ?>
+	
+	
+	 <section id="section-review" style="background-image: url('<?php echo $this->getSkinUrl('images/img-review.jpg'); ?>');" class="section-review">
+      <div class="section-review__inner">
+        <div class="container lg-fluid">
+          <div class="section-review__content">
+            <p>I just ordered from Fresh do dommot for the first time last week. I was very impressed with my experience! I ordered a mix of basic pantry items, refrigerated specialties, and produce totaling about $30- just the stuff I needed for the week. Very handy, I love it!</p>
+            <div class="section-review__content__rerson">
+              <div style="background-image: url('images/img-person.png');" class="section-review__content__rerson__img"></div>
+              <div class="section-review__content__rerson__info"><span class="section-review__content__rerson__name">Daniel Omeruo</span><span class="section-review__content__rerson__status">Client</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+	
+    <div class="footer-home">
+		<?php /* <div class="logo-home"><a href="<?php echo Mage::getBaseUrl() ?>" class="logo-home__link"><i class="icon-apple"></i><span class="logo-home__link__title">Fresh to dommot</span></a></div> */ ?>
+		<div class="logo-home"><a href="" class="logo-home__link"><img src="<?php echo $this->getSkinUrl(Mage::getStoreConfig('design/header/logo_src')) ?>" alt="<?php echo Mage::getStoreConfig('design/header/logo_alt') ?>"></a></div>
+		<div class="footer-home__center-block">
+			<h3 class="footer-home__center-block__title">fresh, prepped, delivered</h3><a href="<?php echo Mage::getUrl('customer/account/create'); ?>" class="btn-success btn btn-lg text-lc">Oya sign me up now now</a>
+			<p class="header-home__center-block__text">Already have an account?<a href="<?php echo Mage::getUrl('customer/account/login'); ?>"> Sign in</a></p>
+		</div>
+    </div>
+<?php /*<script src="http://code.jquery.com/jquery.min.js"></script>
+    <script src="js/plugins.js"></script>
+    <script src="js/main.js"></script>
+	<script>
+$('a[href^="#"]').click(function(){
+var target = $(this).attr('href');
+$('html, body').animate({scrollTop: $(target).offset().top}, 800);
+return false;
+});
+</script>*/ ?>
+<?php } ?>
+</body>
+</html>

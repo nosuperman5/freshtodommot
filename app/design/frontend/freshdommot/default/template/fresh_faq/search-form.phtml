@@ -1,0 +1,27 @@
+<?php /*<div class="faq-search">
+
+	<form method="get" id="search-faq-form" method="get" action="<?php echo $this->getSearchUrl(); ?>">
+	
+		<label for="faq-search-query">Type your question:</label>
+		
+		<input class="input-text" id="faq-search-query" type="text" name="query">
+		
+		<button class="button" title="Search" type="submit">
+			<span><span>Search</span></span>
+		</button>
+	</form>
+	
+	<p>
+		<?php echo $this->__("Still can't find the answer to your question?"); ?>
+		<a href="<?php echo $this->getUrl('contacts'); ?>"><?php echo $this->__('Contact us.'); ?></a>
+	</p>
+</div>*/ ?>
+
+<div class="page-title clearer">
+  <div class="faq-search">
+	<form id="search-faq-form" method="get" action="<?php echo $this->getSearchUrl(); ?>">
+	  <input id="faq-search-query" type="text" name="query" placeholder="How can we help?" class="input-text">
+	  <button title="Search" type="submit" class="button"><i class="ic-icn-search"></i></button>
+	</form>
+  </div>
+</div>

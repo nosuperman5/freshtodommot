@@ -1,0 +1,45 @@
+<?php if(Mage::getSingleton('customer/session')->isLoggedIn()){ ?>
+<div id="productOverview" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" class="product-overview modal fade"></div>
+
+<?php
+    $_productCollection=$this->getLoadedProductCollection();
+    $_helper = $this->helper('catalog/output');
+	$helper = Mage::helper('fresh_local');
+?>
+<?php if(!$_productCollection->count()): ?>
+<p class="note-msg"><?php echo $this->__('There are no products matching the selection.') ?></p>
+<?php else: ?>
+<div class="products-page">
+	<div class="products">
+		<?php echo $this->getToolbarHtml() ?>
+		<div class="products__row">
+		<?php foreach ($_productCollection as $_product):		
+			$cartQty = $helper->cartExist($_product); ?>
+			<div class="products__item item<?php echo $_product->getId() ?>">
+				<div class="products__item__img-box">
+					<div class="products__item__counter"<?php if(!$cartQty): ?> style="display:none;"<?php endif; ?>><i class="ic-icn-cart-filled"></i><span><?php echo $cartQty ?></span></div>
+					<a href="<?php echo $helper->getQuickViewUrl($_product) ?>" data-toggle="modal" data-target="#productOverview" class="quick-view">
+						<img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(250); ?>"  
+							title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" 
+							alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" class="products__item__img" />
+					</a>
+					<div class="products__item__btns-box">
+						<button type="button" class="products__item__btn update-cart minus" data-redirect="<?php echo $helper->getRemoveFromCartUrl($_product) ?>"<?php if(!$cartQty): ?> style="display:none;"<?php endif; ?>><i class="ic-icn-minus-bold"></i></button>
+						<button type="button" class="products__item__btn update-cart plus" data-redirect="<?php echo $helper->getAddToCartUrl($_product) ?>"><i class="ic-icn-plus-bold"></i><span>Add</span></button>
+					</div>
+				</div>
+				<div class="products__item__content">
+					<a href="<?php echo $helper->getQuickViewUrl($_product) ?>" data-toggle="modal" data-target="#productOverview" class="products__item__title quick-view"><?php echo $this->stripTags($_product->getName(), null, true) ?></a>
+					<span class="products__item__price"><?php echo $this->getPriceHtml($_product, true) ?></span>
+				</div>
+			</div>
+		<?php endforeach; ?>
+		</div>
+
+		<div class="toolbar-bottom">
+			<?php echo $this->getToolbarHtml() ?>
+		</div>
+	</div>
+</div>
+<?php endif; ?>
+<?php } ?>

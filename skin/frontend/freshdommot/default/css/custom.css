@@ -1,0 +1,9 @@
+.customer-account-edit .field-info__block {padding-right: 0px;}
+.customer-account-edit .field-info__title {font-size: 19px;width:210px;}
+.list_edit_button{position: absolute; z-index: 100; top: 30px; right: 30px; border-radius: 5px; padding: 0px 10px;}
+a.block-title__btn:hover{text-decoration: none; color: #000000;}
+.search-results {margin-bottom: 30px; height: 500px; overflow: auto;}
+
+.fresh-list-product .fresh-list-product-content .fresh-list-product-reorder {width:10%;opacity:1;}
+.fresh-list-product .fresh-list-product-content .fresh-list-product-details {width:65%}
+.fresh-list-product .fresh-list-product-content .fresh-list-buttons {width:25%;display:block;opacity: 1;position: relative;border:none;}

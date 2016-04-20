@@ -1,0 +1,112 @@
+<?php if(Mage::getSingleton('customer/session')->isLoggedIn()){ ?>
+<!--<div id="product-popup-box"></div>-->
+<div id="productOverview" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" class="product-overview modal fade">
+</div>
+<div class="products-page">
+<?php 
+$_category = Mage::registry('current_category');
+//$this->getParentBlock()->getCurrentCategory();
+$helper = Mage::helper('fresh_local');
+$storeId = Mage::app()->getStore()->getStoreId();
+//var_dump($_category);
+//die();
+$_helper = $this->helper('catalog/output');
+$category = Mage::getModel('catalog/category')->load($_category->getId());
+$categoryIds = $category->getChildren();
+$other_category = true;
+if($categoryIds != ''){    
+    $categoryIds = explode(',', $categoryIds);
+}
+else{
+    $categoryIds = array($_category->getId());
+    $other_category = false;
+}
+/*
+foreach($categoryIds as $categoryId):
+	$category = Mage::getModel('catalog/category')->load($categoryId); ?>
+	<a href="<?php echo $category->getUrl($category); ?>"><?php echo  $category->getName(); ?></a>
+<?php endforeach;
+*/
+foreach($categoryIds as $categoryId):
+	/*$productCollection = Mage::getResourceModel('catalog/product_collection')
+		//->joinField('category_id', 'catalog/category_product', 'category_id', 'product_id = entity_id') //, null, 'left'
+		->addAttributeToSelect('*')
+		//->addFieldToFilter('category_id', $categoryId)
+		
+		//->joinField('category_id','catalog/category_product','category_id','product_id=entity_id', null, 'left')
+		//->addAttributeToFilter('category_id', $categoryId); array('in' => $categoryId)
+		;
+		$productCollection->getSelect()->join( array('category'=> 'catalog_category_product'), 'category.product_id = e.entity_id', array('category.category_id' => $categoryId))
+		;
+		
+	echo $productCollection->getSelect();
+	die();*/
+	if($other_category){
+            $category = Mage::getModel('catalog/category')->load($categoryId);        
+        }
+	$productCollection = Mage::getResourceModel('catalog/product_collection')
+		->addAttributeToSelect('*')
+		->setStoreId($storeId)
+		->addCategoryFilter($category);
+		
+	//var_dump(get_class_methods(get_class($category)));
+	//echo $category->getName();
+//$_productCollection = $productCollection; //->load(); ?>
+	<div class="products">
+            <?php if($other_category):?>
+		<h2 class="products__title"><?php echo $category->getName(); ?><a href="<?php echo $category->getUrl() ?>">View more ></a></h2>
+            <?php endif;?>
+		<div class="products__row">
+	<?php $i=0; foreach ($productCollection as $_product): 
+			$cartQty = $helper->cartExist($_product); ?>
+			<div class="products__item item<?php echo $_product->getId() ?>">
+				<div class="products__item__img-box">
+					<div class="products__item__counter"<?php if(!$cartQty): ?> style="display:none;"<?php endif; ?>><i class="ic-icn-cart-filled"></i><span><?php echo $cartQty ?></span></div>
+					<a href="<?php echo $helper->getQuickViewUrl($_product) ?>" data-toggle="modal" data-target="#productOverview" class="quick-view">
+						<img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(250); ?>"  
+							title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" 
+							alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" class="products__item__img" />
+					</a>
+					<div class="products__item__btns-box">
+						<button type="button" class="products__item__btn update-cart minus" data-redirect="<?php echo $helper->getRemoveFromCartUrl($_product) ?>"<?php if(!$cartQty): ?> style="display:none;"<?php endif; ?>><i class="ic-icn-minus-bold"></i></button>
+						<button type="button" class="products__item__btn update-cart plus" data-redirect="<?php echo $helper->getAddToCartUrl($_product) ?>"><i class="ic-icn-plus-bold"></i><span>Add</span></button>
+					</div>
+				</div>
+				<div class="products__item__content">
+					<a href="<?php echo $helper->getQuickViewUrl($_product) ?>" data-toggle="modal" data-target="#productOverview" class="products__item__title quick-view"><?php echo $this->stripTags($_product->getName(), null, true) ?></a>
+					<span class="products__item__price"><?php echo $this->getPriceHtml($_product, true) ?></span>
+				</div>
+			</div>
+	
+       
+            <?php /*<li>
+                <a class="quick-view" href="<?php echo $helper->getQuickViewUrl($_product) ?>" class="product-image">
+				<img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(135); ?>" width="135" height="135" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" /></a>
+                <h2 class="product-name"><a class="quick-view" href="<?php echo $helper->getQuickViewUrl($_product) ?>" title="<?php echo $this->stripTags($_product->getName(), null, true) ?>"><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></a></h2>
+			*/ ?>
+                <?php /*if($_product->getRatingSummary()): ?>
+                <?php echo $this->getReviewsSummaryHtml($_product, 'short') ?>
+                <?php endif;*/ ?>
+                
+                <?php /*<div class="actions">
+                    <?php if($_product->isSaleable()): ?>
+                        <button type="button" title="<?php echo Mage::helper('core')->quoteEscape($this->__('Add to Cart')) ?>" class="button btn-cart" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button>
+                    <?php else: ?>
+                        <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>
+                    <?php endif; ?>
+                    <ul class="add-to-links">
+                        <?php if ($this->helper('wishlist')->isAllow()) : ?>
+                            <li><a href="<?php echo $this->helper('wishlist')->getAddUrl($_product) ?>" class="link-wishlist"><?php echo $this->__('Add to Wishlist') ?></a></li>
+                        <?php endif; ?>
+                        <?php if($_compareUrl=$this->getAddToCompareUrl($_product)): ?>
+                            <li><span class="separator">|</span> <a href="<?php echo $_compareUrl ?>" class="link-compare"><?php echo $this->__('Add to Compare') ?></a></li>
+                        <?php endif; ?>
+                    </ul>
+                </div>*/ ?>
+            <?php //</li> ?>
+	<?php endforeach; ?>
+	   </div>
+	</div>           
+<?php endforeach; ?>
+</div>
+<?php } ?>

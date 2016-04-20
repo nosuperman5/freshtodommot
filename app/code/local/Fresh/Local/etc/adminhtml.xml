@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<config>
+    <!-- <menu>
+        <system>
+            <children>
+                <extendedfaq>
+                    <title>Extended Faq</title>
+                    <sort_order>10</sort_order>
+                    <children>
+                        <question>
+                            <title>Manage Questions</title>
+                            <action>extendedfaq/adminhtml_faq</action>
+                            <sort_order>110</sort_order>
+                        </question>
+                        <category>
+                            <title>Manage Categories</title>
+                            <action>extendedfaq/adminhtml_category</action>
+                            <sort_order>120</sort_order>
+                        </category>
+                    </children>
+                </extendedfaq>
+            </children>
+        </system>
+    </menu> -->
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <fresh_local>
+                                        <title>Fresh Configuration Section</title>
+                                    </fresh_local>
+                                </children>
+                            </config>
+                            <!-- <extendedfaq>
+                                <title>Extended Faq</title>
+                                <sort_order>10</sort_order>
+                                <children>
+                                    <question>
+                                        <title>Manage Questions</title>
+                                        <sort_order>110</sort_order>
+                                    </question>
+                                    <category>
+                                        <title>Manage Categories</title>
+                                        <sort_order>120</sort_order>
+                                    </category>
+                                </children>
+                            </extendedfaq> -->
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

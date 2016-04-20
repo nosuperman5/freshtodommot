@@ -1,0 +1,96 @@
+<?php
+/** @var Mage_Checkout_Block_Onepage_Billing $this */
+?>
+
+
+<form id="co-billing-form" action="">
+	<div class="page-header text-center">
+		<ul class="page-header__steps">
+			<li><a href="#" onclick="return false;">Delivery</a></li>
+			<li><span>Payment</span></li>
+		</ul>
+	</div>
+	<div class="container-fluid">
+		<div class="payment-box">
+			<div class="payment-box__row">
+				<div class="payment-box__title pt-25">Address</div>
+				<div class="payment-box__content">
+                    <div class="payment-box__row__address">
+						<?php if ($this->customerHasAddresses()): ?>
+							<div style="display:none;">
+								<?php echo $this->getAddressesHtmlSelect('billing') ?>
+							</div>
+							<?php $defaultAddr = Mage::getSingleton('customer/session')->getCustomer()->getDefaultBilling();
+							foreach($this->getCustomer()->getAddresses() as $address): ?>
+								<div class="payment-box__row__address__item<?php echo ($defaultAddr == $address->getId())?' active':'';?>">
+									<a href="#" class="payment-box__row__address__btn"><i data-address="<?php echo $address->getId(); ?>" class="address-select ic-icn-home-filled"></i></a>
+									<div class="payment-box__row__address__title">
+										<span class="color-orange"><?php echo $address->getAddressLabel(); ?></span>
+										<span><p><?php echo $this->helper('fresh_local/customer_data')->getAddressHtml($address) ?></p></span>
+									</div>
+								</div>
+							<?php endforeach;
+						endif; ?>
+						
+						<div class="payment-box__row__address__item">
+							<a href="<?php echo $this->getUrl('customer/address', array('_query' => array('redirect'=>'checkout'))) ?>" class="payment-box__row__address__btn"><i class="ic-icn-plus"></i></a>
+							<div class="payment-box__row__address__title"><span>New Address</span></div>
+						</div>
+                    </div>
+				</div>
+			</div>
+			
+			<script>
+			jQuery(document).on('click', '.address-select', function(){
+				jQuery('#billing-address-select').val(jQuery(this).attr('data-address'));
+				jQuery('.payment-box__row__address__item').removeClass('active');
+				jQuery(this).closest('.payment-box__row__address__item').addClass('active');
+				return false;
+			});
+			</script>
+			
+			
+			<div class="payment-box__row">
+				<div class="payment-box__title"><span><?php echo $this->__('Order') ?></span><span> <?php echo $this->__('Instructions') ?></span></div>
+				<div class="payment-box__content">
+					<textarea rows="3" placeholder="Please call me" class="payment-box__form-control"></textarea>
+				</div>
+			</div>
+			<div class="payment-box__row">
+				<div class="payment-box__title"><span><?php echo $this->__('Estimated') ?></span><span> <?php echo $this->__('delivery date') ?></span></div>
+				<div class="payment-box__content">
+                    <div class="payment-box__date">
+						<?php $dateTime = strtotime('+3 days'); ?>
+						<div class="payment-box__date__item"><span class="payment-box__date__item__title"><?php echo date('l', $dateTime) ?></span><span class="payment-box__date__item__date"><?php echo date('M j', $dateTime) ?></span></div>
+						<div class="payment-box__date__item"><span class="payment-box__date__item__title">&nbsp;</span><span class="payment-box__date__item__date"><?php echo date('g', $dateTime) . ' - ' . date('g a', strtotime('+1 hour', $dateTime)) ?></span></div>
+                    </div>
+				</div>
+			</div>
+			
+			<?php if ($this->canShip()): ?>
+				<div class="hidden">
+					<input type="radio" name="billing[use_for_shipping]" id="billing:use_for_shipping_yes" value="1"<?php if ($this->isUseBillingAddressForShipping()) {?> checked="checked"<?php }?> title="<?php echo  Mage::helper('core')->quoteEscape($this->__('Ship to this address')) ?>" onclick="$('shipping:same_as_billing').checked = true;" class="radio" /><label for="billing:use_for_shipping_yes"><?php echo  $this->__('Ship to this address') ?></label>
+					<input type="radio" name="billing[use_for_shipping]" id="billing:use_for_shipping_no" value="0"<?php if (!$this->isUseBillingAddressForShipping()) {?> checked="checked"<?php }?> title="<?php echo Mage::helper('core')->quoteEscape($this->__('Ship to different address')) ?>" onclick="$('shipping:same_as_billing').checked = false;" class="radio" /><label for="billing:use_for_shipping_no"><?php echo $this->__('Ship to different address') ?></label>
+				</div>
+			<?php endif; ?>
+			<?php if (!$this->canShip()): ?>
+				<input type="hidden" name="billing[use_for_shipping]" value="1" />
+			<?php endif; ?>
+			
+			<div class="payment-box__btn-wrap buttons-set" id="billing-buttons-container">
+				<?php /* <button class="payment-box__btn pull-left btn btn-default"><?php echo $this->__('Back') ?></button> */ ?>
+				<span class="please-wait" id="billing-please-wait" style="display:none;">
+					<img src="<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif') ?>" alt="<?php echo Mage::helper('core')->quoteEscape($this->__('Loading next step...')) ?>" title="<?php echo Mage::helper('core')->quoteEscape($this->__('Loading next step...')) ?>" class="v-middle" /> <?php echo $this->__('Loading next step...') ?>
+				</span>
+				<button type="button" title="<?php echo Mage::helper('core')->quoteEscape($this->__('Next')) ?>" class="button payment-box__btn pull-right btn btn-success" onclick="billing.save()"><span><span><?php echo $this->__('Next') ?></span></span></button>
+			</div>
+		</div>
+	</div>
+	 
+
+
+</form>
+<script type="text/javascript">
+    var billing = new Billing('co-billing-form', '<?php echo $this->getUrl('checkout/onepage/getAddress') ?>address/', '<?php echo $this->getUrl('checkout/onepage/saveBilling') ?>');
+    var billingForm = new VarienForm('co-billing-form');
+</script>

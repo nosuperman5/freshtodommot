@@ -1,0 +1,26 @@
+<?php $_product = $this->getProduct(); 
+$helper = Mage::helper('fresh_local');
+?>
+<?php //$buttonTitle = $this->__('Add to Cart'); ?>
+<?php if($_product->isSaleable()): ?>
+    <?php /*<div class="add-to-cart">
+        <?php if(!$_product->isGrouped()): ?>
+        <label for="qty"><?php echo $this->__('Qty:') ?></label>
+        <input type="text" name="qty" id="qty" maxlength="12" value="<?php echo $this->getProductDefaultQty() * 1 ?>" title="<?php echo Mage::helper('core')->quoteEscape($this->__('Qty')) ?>" class="input-text qty" />
+        <?php endif; ?>
+        <button type="button" title="<?php echo $buttonTitle ?>" id="product-addtocart-button" class="button btn-cart" <?php //onclick="productAddToCartForm.submit(this)" ?>><span><span><?php echo $buttonTitle ?></span></span></button>
+        <?php echo $this->getChildHtml('', true, true) ?>
+    </div>*/ ?>
+	
+	<div class="product-overview__btn-wrap">
+		<?php if(!$_product->isGrouped()): ?>
+			<input type="text" name="qty" id="qty" maxlength="12" value="<?php echo $this->getProductDefaultQty() * 1 ?>" title="<?php echo Mage::helper('core')->quoteEscape($this->__('Qty')) ?>" class="input-text qty hidden" />
+        <?php endif; ?>
+		
+		<button type="button" class="product-overview__btn"><span><strong><?php echo $helper->cartExist($_product) ?></strong> <?php echo $this->__('in Cart') ?></span></button>
+		<div class="product-overview__control">
+			<button type="button" class="product-overview__control__btn product-overview__control__btn--plus update-cart" data-redirect="<?php echo $helper->getAddToCartUrl($_product) ?>"><i class="ic-icn-plus-bold"></i></button>
+			<button type="button" class="product-overview__control__btn product-overview__control__btn--minus update-cart" data-redirect="<?php echo $helper->getRemoveFromCartUrl($_product) ?>" <?php if(!$helper->cartExist($_product)): ?> style="display:none"<?php endif ?>><i class="ic-icn-minus-bold"></i></button>
+		</div>
+	</div>
+<?php endif; ?>

@@ -1,0 +1,64 @@
+<?php echo $this->getMessagesBlock()->toHtml() ?>
+<?php $helper = Mage::helper('fresh_local');
+$_orders = $this->getOrders(); 
+$orderId = $this->getRequest()->getParam('id');
+?>
+<div class="page-title">
+    <h1><?php echo $this->__('My Orders') ?></h1>
+</div>
+<?php //echo $this->getPagerHtml(); ?>
+<?php if($_orders->getSize()): ?>
+	<div class="row">
+		<div class="col-md-5 col-sm-6">
+			<div class="account-new-btn-wrap">
+				<?php foreach ($_orders as $_order): 
+				if(!$orderId){ $orderId = $_order->getId(); } ?>
+				<a href="<?php echo $this->getUrl('sales/order/history', array('id' => $_order->getId())) ?>" class="order-history__btn<?php if($_order->getId() == $orderId): ?> active<?php endif; ?>">
+					<span class="order-history__btn__date"><?php echo $this->formatDate($_order->getCreatedAtStoreDate(), 'medium', true) ?><?php //Feb 19, 2015 9:59 AM ?></span>
+					<span class="order-history__btn__item"><?php echo (int)$_order->getTotalQtyOrdered() ?> items, <?php echo $_order->formatPrice($_order->getGrandTotal()) ?> tip</span>
+					<span class="order-history__btn__status"><?php echo $_order->getStatusLabel() ?></span>
+				</a>
+				<?php endforeach; ?>
+			</div>
+			<?php //echo $this->getPagerHtml(); ?>
+		</div>
+		<div class="col-md-7 col-sm-6">
+			<?php /* <div class="order-history__links"><a href="" class="pull-left">View Order Status</a><a href="" class="pull-right">View Receipt</a></div> */ ?>
+			<div class="order-history__list">
+				<div class="order-history__list__head">
+					<h4 class="order-history__list__head__title">Whole Foods Market</h4>
+				</div>
+				<div class="order-history__list__body">
+					<?php $order = Mage::getModel('sales/order')->load($orderId);
+					$ordered_items = $order->getAllItems(); 
+					foreach($ordered_items as $item){
+						//var_dump($item->getData());
+						$_product = Mage::getModel('catalog/product')->load($item->getProductId()); ?>
+					<div class="order-history__list__item">
+						<div class="order-history__list__item__image"><img src="<?php echo $_product->getImageUrl();?>" alt="<?php echo $item->getName();?>"></div>
+						<?php //echo $item->getSku(); ?>
+						<div class="order-history__list__item__details">
+							<div class="order-history__list__item__content">
+								<span class="order-history__list__item__name"><?php echo (int)$item->getQtyOrdered(); ?>x <?php echo $item->getName(); ?></span>
+								<?php /* <a href="" class="order-history__list__item__name"><?php echo (int)$item->getQtyOrdered(); ?>x <?php echo $item->getName(); ?></a> */ ?>
+								<span class="order-history__list__item__info">each <?php echo Mage::helper('core')->currency($item->getPrice(), true, false); ?></span>
+							</div>
+							<div class="order-history__list__item__btns">
+							<?php if($_product->isSaleable()): ?>
+								<button type="button" class="order-history__list__item__btn-add products__item__btn update-cart plus" data-redirect="<?php echo $helper->getAddToCartUrl($_product, $item->getQtyOrdered()) ?>">
+									<i class="ic-icn-plus-bold"></i><span><?php echo $this->__('Add') ?></span>
+								</button>
+							<?php else: ?>	
+								<button type="button" class="order-history__list__item__btn-default"><span><?php echo $this->__('Unavailable') ?></span></button>
+							<?php endif; ?>
+							</div>
+						</div>
+					</div>
+				<?php } ?>
+			  </div>
+			</div>
+		</div>
+	</div>
+<?php else: ?>
+    <p><?php echo $this->__('You have placed no orders.'); ?></p>
+<?php endif ?>

@@ -1,0 +1,276 @@
+<?php
+/**
+ * MageWorx
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the MageWorx EULA that is bundled with
+ * this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.mageworx.com/LICENSE-1.0.html
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade the extension
+ * to newer versions in the future. If you wish to customize the extension
+ * for your needs please refer to http://www.mageworx.com/ for more information
+ *
+ * @category   MageWorx
+ * @package    MageWorx_ShoppingList
+ * @copyright  Copyright (c) 2011 MageWorx (http://www.mageworx.com/)
+ * @license    http://www.mageworx.com/LICENSE-1.0.html
+ */
+
+/**
+ * Shopping List extension
+ *
+ * @category   MageWorx
+ * @package    MageWorx_ShoppingList
+ * @author     MageWorx Dev Team
+ */
+
+$list=$this->getShoppingList();
+$listItems=$this->getShoppingListItems();
+$_isSaleable_flag=false;
+?>
+<div id="my-shoppinglist-content">
+    <div class="my-shoppinglist">
+        <div class="page-title title-buttons">
+            <h1><a href="<?php echo $this->getUrl('*/') ?>"><?php echo $this->__('My Shopping Lists') ?></a> / <span title="<?php echo $this->htmlEscape($list->getDescription()) ?>"><?php echo $this->htmlEscape($list->getTitle()) ?></span></h1>
+        </div>
+        <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+        <?php if (count($listItems)>0): ?>
+        <form id="shoppinglist-view-form" action="<?php echo $this->getUrl('*/*/submitItem/') ?>" method="post">
+            <fieldset>
+                <?php echo $this->getBlockHtml('formkey')?>
+                <input type="hidden" name="shoppinglist_id" value="<?php echo $list->getShoppinglistId() ?>" />
+                <table class="data-table" id="shoppinglist-table">
+                <col width="1" />
+                <col width="1" />
+                <col />
+                <col width="1" />
+                <col width="1" />
+                <col width="1" />
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" name="check_all" value="" onclick="checkAll(this);" title="<?php echo $this->__('Check all') ?>" /></th>
+                            <th><?php echo $this->__('Product') ?></th>
+                            <th><?php echo $this->__('Comment') ?></th>
+                            <th class="a-center"><span class="nobr"><?php echo $this->__('Added On') ?></span></th>
+                            <th class="a-center"><span class="nobr"><?php echo $this->__('Actions') ?></span></th>
+                            <th>&nbsp;</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach ($listItems as $item): ?>
+                        <?php
+                            $product = $this->getProductById($item->getProductId(), $item->getStoreId(), $item->getParams());                        
+                            $isVisibleProduct = $product->isVisibleInSiteVisibility();                                                                                              
+                        ?>
+                        <tr id="tr_<?php echo $item->getShoppinglistItemId() ?>">
+                            <td class="center"><input type="checkbox" name="checked[<?php echo $item->getShoppinglistItemId() ?>]" value="1"/></td>
+                            <td>
+                                <a class="product-image" href="<?php echo $this->getProductUrl($product) ?>" title="<?php echo $this->htmlEscape($product->getName()) ?>"><img src="<?php echo $this->helper('catalog/image')->init($product, 'small_image')->resize(113, 113); ?>" width="113" height="113" alt="<?php echo $this->htmlEscape($product->getName()) ?>" /></a>
+                                <h2 class="product-name"><a href="<?php echo $this->getProductUrl($product) ?>"><?php echo $this->htmlEscape($product->getName()); ?></a></h2>
+                                <?php echo $this->getPriceHtml($product) ?>
+
+                                <?php $options = $this->getOptions($product, $item->getParams()); ?>
+                                <?php if (count($options)>0): ?>
+                                <div class="truncated">
+                                    <div class="truncated_full_value">                            
+                                        <div class="item-options">                                    
+                                            <dl>
+                                                <?php foreach ($options as $option): ?>
+                                                    <dt><?php echo $this->escapeHtml($option['label']) ?></dt>
+                                                    <dd>
+                                                        <?php if (is_array($option['value'])): ?>
+                                                            <?php echo nl2br(implode("\n", $option['value'])) ?>
+                                                        <?php else: ?>
+                                                            <?php echo $option['value'] ?>
+                                                        <?php endif; ?>
+                                                    </dd>
+                                                <?php endforeach; ?>
+                                            </dl>
+                                        </div>
+                                    </div>
+                                    <a href="#" onclick="return false;" class="details"><?php echo $this->__('View Details') ?></a>
+                                </div>    
+                                <?php endif; ?> 
+
+                            </td>
+                            <td>                                                        
+                                <textarea name="description[<?php echo $item->getShoppinglistItemId() ?>]" rows="3" cols="5" onfocus="focusComment(this, true)" onblur="focusComment(this, false)" title="<?php echo $this->escapeHtml($this->__('Comment')) ?>"><?php echo $this->escapeHtml($item->getDescription()) ?></textarea>                                                       
+                            </td>                        
+                            <td>
+                                <span class="nobr"><?php echo $this->getFormatedDate($item->getAddedAt()) ?></span>
+                            </td>
+                            <td class="a-center">
+                            <?php if ($isVisibleProduct): ?>
+                                <p><input type="text" class="input-text qty" name="qty[<?php echo $item->getShoppinglistItemId() ?>]" id="qty_<?php echo $item->getShoppinglistItemId() ?>" value="<?php echo intval($item->getQty()) ?>" /></p>
+                            <?php endif; ?>
+                            <?php if ($product->isSaleable()): $_isSaleable_flag=true ?>
+                                <?php if ($isVisibleProduct): ?>
+                                <button type="button" title="<?php echo $this->escapeHtml($this->__('Add to Cart')) ?>" onclick="setLocation('<?php echo $this->getUrl('*/index/addToCart/').'item_id/'.$item->getShoppinglistItemId().'/qty/'; ?>'+$('qty_<?php echo $item->getShoppinglistItemId() ?>').value+'/')" class="button btn-cart"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button>
+                                <?php endif ?>
+                            <?php else: ?>
+                                <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>
+                            <?php endif; ?>
+                                <?php if ($isVisibleProduct): ?>
+                                <p><a href="" onclick="showMove(<?php echo $item->getShoppinglistItemId() ?>, event); return false"><?php echo $this->__('Move') ?></a></p>
+                                <?php endif ?>
+                            </td>
+                            <td>
+                                <a href="" title="<?php echo $this->escapeHtml($this->__('Remove Item')) ?>" onclick="removeListItem(<?php echo $item->getShoppinglistItemId() ?>); return false;" class="btn-remove btn-remove2"><?php echo $this->__('Remove Item')?></a>
+                            </td>
+                        </tr>                   
+                    <?php endforeach ?>
+                    </tbody>
+                </table>
+                <script type="text/javascript">decorateTable('shoppinglist-table')</script>
+                <div class="buttons-set buttons-set2">                
+                    <?php if($_isSaleable_flag): ?>
+                        <button type="submit" title="<?php echo $this->escapeHtml($this->__('Add Selected Products to Cart')) ?>" onclick="if (checkChecked()) this.name='do_cart'; else return false;" class="button btn-add"><span><span><?php echo $this->__('Add Selected Products to Cart') ?></span></span></button>                    
+                    <?php endif;?>
+                    <button type="submit" title="<?php echo $this->escapeHtml($this->__('Update Shopping List')) ?>" onclick="this.name='do_update'" class="button btn-update"><span><span><?php echo $this->__('Update Shopping List') ?></span></span></button>
+                    <button type="submit" title="<?php echo $this->escapeHtml($this->__('Delete Selected')) ?>" onclick="if (checkChecked()) this.name='do_delete'; else return false;" class="button btn-update"><span><span><?php echo $this->__('Delete Selected') ?></span></span></button>
+
+                </div>
+            </fieldset>
+        </form>
+        <?php else: ?>
+            <p><?php echo $this->__('You have no items in your shopping list.') ?></p>
+        <?php endif ?>
+    <script type="text/javascript">
+    //<![CDATA[    
+    function focusComment(obj, focus) {
+        if( obj.value == '<?php echo $this->helper('shoppinglist')->defaultCommentString() ?>' ) {
+            obj.value = '';
+        } else if( obj.value == '' && focus==false) {
+            obj.value = '<?php echo $this->helper('shoppinglist')->defaultCommentString() ?>';
+        }
+    }
+
+    function checkAll(obj) {
+        var form = $(obj.form); 
+        var inputs = form.getInputs('checkbox'); 
+        inputs.each(function (elem) { 
+            elem.checked = obj.checked; 
+        });           
+    }
+    
+    function checkChecked() {
+        var form = $('shoppinglist-view-form'); 
+        var inputs = form.getInputs('checkbox'); 
+        checkFlag = false;
+        inputs.each(function (elem) {           
+            if (elem.checked) checkFlag = true;
+        });
+        if (checkFlag) return true;
+        alert('<?php echo $this->jsQuoteEscape($this->__('Please select product(s).')) ?>');
+        return false;           
+    }
+    
+    
+    function removeListItem(itemId) {
+        if (confirm('<?php echo $this->jsQuoteEscape($this->__('Are you sure want to delete the product?')) ?>')) {
+            row = $('tr_'+itemId);
+            ShoppingList.fade(row);
+
+            new Ajax.Request("<?php echo $this->getAjaxUrl() ?>removeItem/?item_id="+itemId+"&item_count="+$$('tr[id^="tr_"]').length, {
+                method: 'get',
+		onSuccess: function(transport) {                    
+                    if (transport.responseText!="no") {
+                        $('tr_'+itemId).remove();
+                        if (transport.responseText=='ok') {
+                            decorateTable('shoppinglist-table');
+                        } else {
+                            ShoppingList.updateBlock($('my-shoppinglist-content'), transport.responseText);
+                        }                        
+                    } else {
+                        alert('<?php echo $this->jsQuoteEscape($this->__('Failed to remove item.')) ?>');
+                    }
+                }    
+            });
+        }
+    } 
+    
+    var otherLists = [ 
+    <?php 
+        $otherLists=$this->getOtherShoppingLists();
+        foreach ($otherLists as $list) {
+            echo '['.$list->getShoppinglistId().', "'.$this->escapeHtml($list->getTitle()).'", '.$list->getProductCount().'], ';
+        }
+    ?>
+    ];
+    
+    var headerMove = '<div style="float:left; font-weight:bold;"><?php echo $this->jsQuoteEscape($this->__('Move to')) ?></div>&nbsp;&nbsp;&nbsp;<div style="float:right; margin-top:-8px; font-size:15px; font-weight:bold; color:#800000; cursor:pointer;" onclick="this.parentNode.style.display=\'none\';">x</div><br/>';
+    
+    function showMove(itemId, event) {
+        $('popup_move').style.display = 'block';
+	$('popup_move').style.top = event.pageY-15 +"px";
+	$('popup_move').style.left = event.pageX +"px";
+	$('popup_move').innerHTML = headerMove;
+        $('popup_move').innerHTML += '<div style="cursor:pointer;" onclick="showMoveToNew('+itemId+'); this.parentNode.style.display=\'none\';" onmouseover="this.style.textDecoration=\'underline\'" onmouseout="this.style.textDecoration=\'none\'"><?php echo $this->__('Create New List') ?></div>';
+
+        otherLists.each(function(item) {            
+            $('popup_move').innerHTML += '<div style="cursor:pointer;" onclick="productMove('+itemId+', '+item[0]+'); this.parentNode.style.display=\'none\';" onmouseover="this.style.textDecoration=\'underline\'" onmouseout="this.style.textDecoration=\'none\'">'+item[1]+' ('+item[2]+')</div>';
+        });                
+    }
+        
+    function showMoveToNew(itemId) {
+    	$('popup_move').innerHTML = headerMove;
+        $('popup_move').innerHTML += '<input type="text" size="24" name="new_list" id="new_list" value="<?php echo $this->escapeHtml($this->__('New Shopping List')) ?>"/><br/>';
+        $('popup_move').innerHTML += '<div align="center"><input type="button" onclick="productMoveToNew('+itemId+'); this.parentNode.parentNode.style.display=\'none\';" value="<?php echo $this->escapeHtml($this->__('Create and Move')) ?>"/></div>';
+    }    
+    
+    function productMove(itemId, listId) {
+        row = $('tr_'+itemId);
+        ShoppingList.fade(row);
+        
+        new Ajax.Request("<?php echo $this->getAjaxUrl() ?>moveItem/?item_id="+itemId+"&list_id="+listId+"&item_count="+$$('tr[id^="tr_"]').length, {
+            method: 'get',
+            onSuccess: function(transport) {
+                if (transport.responseText!="no") {
+                    $('tr_'+itemId).remove();
+                    if (transport.responseText=='ok') {
+                        decorateTable('shoppinglist-table');
+                    } else {
+                        ShoppingList.updateBlock($('my-shoppinglist-content'), transport.responseText);
+                    }
+                } else {
+                    alert('<?php echo $this->jsQuoteEscape($this->__('Failed to move item.')) ?>');
+                }
+            }    
+        });
+    }
+    
+    function productMoveToNew(itemId) {
+        title = $('new_list').value.replace(/^\s+|\s+$/g,"");
+        if (title.length==0) {
+            alert('<?php echo $this->jsQuoteEscape($this->__('The title must not be empty.')) ?>');
+            $('new_list').focus();
+            return false;
+        }
+        
+        row = $('tr_'+itemId);
+        ShoppingList.fade(row);
+
+        new Ajax.Request("<?php echo $this->getAjaxUrl() ?>moveItemToNew/?item_id="+itemId+"&title="+title, {
+            method: 'get',
+            onSuccess: function(transport) {                
+                if (transport.responseText > 0) {
+                    setLocation('<?php echo $this->getURL('*/*/') ?>view/id/'+transport.responseText+'/');
+                } else {
+                    alert('<?php echo $this->jsQuoteEscape($this->__('Failed to move item.')) ?>');
+                }
+            }    
+        });
+    }            
+    //]]>
+    </script>
+    </div>
+    <div class="buttons-set">
+        <p class="back-link"><a href="<?php echo $this->urlEscape($this->getBackUrl()) ?>"><small>&laquo; </small><?php echo $this->__('Back') ?></a></p>
+    </div>
+    <div id="popup_move" class="my-shoppinglist-popup-move">Add to:<br></div>
+</div>

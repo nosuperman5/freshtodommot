@@ -1,0 +1,131 @@
+<?php echo $this->getMessagesBlock()->toHtml() ?>
+<?php $helper = Mage::helper('fresh_local');
+$_orders = $this->getOrders(); 
+$orderId = $this->getRequest()->getParam('id');
+?>
+<div class="page-title">
+    <h1><?php echo $this->__('My Orders') ?></h1>
+</div>
+<?php //echo $this->getPagerHtml(); ?>
+<?php if($_orders->getSize()): ?>
+<table class="data-table" id="my-orders-table">
+    <col width="1" />
+    <col width="1" />
+    <col />
+    <col width="1" />
+    <col width="1" />
+    <col width="1" />
+    <thead>
+        <tr>
+            <th><?php echo $this->__('Order #') ?></th>
+            <th><?php echo $this->__('Date') ?></th>
+            <th><?php echo $this->__('Qty') ?></th>
+            <th><span class="nobr"><?php echo $this->__('Order Total') ?></span></th>
+            <th><span class="nobr"><?php echo $this->__('Order Status') ?></span></th>
+            <th>&nbsp;</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php $_odd = ''; ?>
+        <?php foreach ($_orders as $_order): 
+		if(!$orderId){ $orderId = $_order->getId(); }
+		?>
+        <tr<?php if($_order->getId() == $orderId): ?> class="active"<?php endif; ?>>
+            <td><?php echo $_order->getRealOrderId() ?></td>
+            <td><span class="nobr"><?php echo $this->formatDate($_order->getCreatedAtStoreDate()) ?></span></td>
+            <td><?php echo (int)$_order->getTotalQtyOrdered() //echo $_order->getShippingAddress() ? $this->escapeHtml($_order->getShippingAddress()->getName()) : '&nbsp;' ?></td>
+            <td><?php echo $_order->formatPrice($_order->getGrandTotal()) ?></td>
+            <td><em><?php echo $_order->getStatusLabel() ?></em></td>
+            <?php /*<td class="a-center">
+                <span class="nobr"><a href="<?php echo $this->getViewUrl($_order) ?>"><?php echo $this->__('View Order') ?></a>
+                    <?php <span class="separator">|</span><a href="<?php echo $this->getTrackUrl($_order) ?>"><?php echo $this->__('Track Order') ?></a>&nbsp; ?>
+                    <?php if ($this->helper('sales/reorder')->canReorder($_order)) : ?>
+                    <span class="separator">|</span> <a href="<?php echo $this->getReorderUrl($_order) ?>" class="link-reorder"><?php echo $this->__('Reorder') ?></a>
+                <?php endif ?>
+                </span>
+            </td>*/ ?>
+			<td class="a-center"><a href="<?php echo $this->getUrl('sales/order/history', array('id' => $_order->getId())) ?>"><?php echo $this->__('View Order') ?></a></td>
+        </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
+<script type="text/javascript">decorateTable('my-orders-table');</script>
+<?php //echo $this->getPagerHtml(); ?>
+    
+
+
+
+			<div class="my-account">
+                <div class="row">
+					<div class="col-md-5 col-sm-6">
+						<div class="account-new-btn-wrap">
+							<a href="" class="order-history__btn">
+								<span class="order-history__btn__date"><?php echo $this->formatDate($_order->getCreatedAtStoreDate()) ?> Feb 19, 2015 9:59 AM</span>
+								<span class="order-history__btn__item"><?php echo (int)$_order->getTotalQtyOrdered() ?> items, <?php echo $_order->formatPrice($_order->getGrandTotal()) ?> tip</span>
+								<span class="order-history__btn__status"><?php echo $_order->getStatusLabel() ?></span>
+							</a>
+							<?php /*<a href="" class="order-history__btn">
+								<span class="order-history__btn__date">Feb 19, 2015 9:59 AM</span>
+								<span class="order-history__btn__item">0 items, $0.00 tip</span>
+								<span class="order-history__btn__status">Canceled</span>
+							</a>
+							<a href="" class="order-history__btn"><span class="order-history__btn__date">Feb 19, 2015 9:59 AM</span>
+								<span class="order-history__btn__item">0 items, $0.00 tip</span>
+								<span class="order-history__btn__status">Canceled</span>
+							</a>*/ ?>
+						</div>
+					</div>
+					<div class="col-md-7 col-sm-6">
+						<div class="order-history__links"><a href="" class="pull-left">View Order Status</a><a href="" class="pull-right">View Receipt</a></div>
+						<div class="order-history__list">
+							<div class="order-history__list__head">
+								<h4 class="order-history__list__head__title">Whole Foods Market</h4>
+							</div>
+							<div class="order-history__list__body">
+								<?php $order = Mage::getModel('sales/order')->load($orderId);
+									$ordered_items = $order->getAllItems(); 
+									foreach($ordered_items as $item){
+										/*$_product = Mage::getModel('catalog/product')->load($item->getProductId()); ?>
+		<img src="<?php echo $_product->getImageUrl();?>" alt="<?php echo $item->getName();?>" />
+		<?php echo $item->getItemId(); //product id     
+		echo $item->getSku();     
+		echo (int)$item->getQtyOrdered(); //ordered qty of item     
+		echo $item->getName();
+		if($_product->isSaleable()): ?>
+			<button type="button" class="products__item__btn update-cart plus" data-redirect="<?php echo $helper->getAddToCartUrl($_product, $item->getQtyOrdered()) ?>"><i class="ic-icn-plus-bold"></i><span>Add</span></button>
+		<?php else: ?>
+			<p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>
+		<?php endif;
+	}*/
+?>
+								<div class="order-history__list__item">
+									<div class="order-history__list__item__image"><img src="<?php echo $_product->getImageUrl();?>" alt="<?php echo $item->getName();?>"></div>
+									<?php //echo $item->getSku(); ?>
+									<div class="order-history__list__item__details">
+										<div class="order-history__list__item__content">
+											<a href="" class="order-history__list__item__name"><?php echo (int)$item->getQtyOrdered(); ?>x <?php echo $item->getName(); ?></a>
+											<span class="order-history__list__item__info">each $0.79</span>
+										</div>
+										<div class="order-history__list__item__btns">
+										<?php if($_product->isSaleable()): ?>
+											<?php /* <button type="button" class="order-history__list__item__btn-add"><i class="fa fa-plus"></i><span><?php echo $this->__('Add') ?></span></button> */ ?>
+											<button type="button" class="order-history__list__item__btn-add products__item__btn update-cart plus" data-redirect="<?php echo $helper->getAddToCartUrl($_product, $item->getQtyOrdered()) ?>">
+												<i class="fa fa-plus"></i><span><?php echo $this->__('Add') ?></span>
+											</button>
+										<?php else: ?>	
+											<button type="button" class="order-history__list__item__btn-default"><span><?php echo $this->__('Unavailable') ?></span></button>
+										<?php endif; ?>
+										</div>
+									</div>
+								</div>
+							<?php } ?>
+						  </div>
+						</div>
+					</div>
+                </div>
+            </div>
+
+
+<?php else: ?>
+    <p><?php echo $this->__('You have placed no orders.'); ?></p>
+<?php endif ?>
